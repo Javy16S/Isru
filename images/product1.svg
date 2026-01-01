@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200">
-  <rect width="300" height="200" rx="12" fill="#FFFFFF" stroke="#E6E9EE"/>
-  <g transform="translate(40,30)">
-    <rect x="0" y="0" width="220" height="140" rx="10" fill="#FFF9F0"/>
-    <rect x="12" y="18" width="60" height="90" rx="6" fill="#FFDFA3"/>
-  </g>
-  <text x="18" y="184" font-family="Inter, sans-serif" font-size="14" fill="#6b7280">Cartera Slim</text>
-</svg>
