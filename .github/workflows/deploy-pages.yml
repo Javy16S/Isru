@@ -86,6 +86,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out_to_publish
           publish_branch: gh-pages
-          # keep_history: conserva el historial y evita sobrescribir completamente la rama gh-pages
-          keep_history: true
 
