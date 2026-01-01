@@ -1,5 +1,6 @@
 ---
-// Frontmatter can be extended later (page metadata, imports)
+// Import global styles so Astro/PostCSS/Tailwind process them during build
+import '../styles/global.css';
 ---
 <!doctype html>
 <html lang="es">
@@ -16,7 +17,7 @@
     <meta property="og:url" content="https://example.com/" />
     <meta property="og:image" content="/images/imagen_muestra.avif" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="stylesheet" href="/src/styles/global.css">
+    
   </head>
   <body>
     <!-- Migrate of original index.html content: simplified for Astro -->
