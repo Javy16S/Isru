@@ -1,0 +1,41 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Isru: accesorios elegantes y minimalistas para organizar tus esenciales." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="canonical" href="https://isru.vercel.app/" />
+		<meta name="generator" content={Astro.generator} />
+		
+		<!-- Open Graph -->
+		<meta property="og:site_name" content="Isru" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://isru.vercel.app/" />
+		<meta property="og:image" content="/images/imagen_muestra.avif" />
+		<meta name="twitter:card" content="summary_large_image" />
+
+		<!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+		
+		<title>{title}</title>
+	</head>
+	<body class="bg-white text-gray-900 font-sans antialiased">
+		<slot />
+	</body>
+</html>

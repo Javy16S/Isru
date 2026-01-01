@@ -3,28 +3,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
 
-  // Mobile nav toggle
+  // Mobile nav toggle (Handled in Astro component now, but keeping for backup/compatibility if logic runs)
   const nav = document.getElementById('mainNav');
   const btn = document.getElementById('navToggle');
-  if (btn && nav) {
+  const mobileMenu = document.getElementById('mobileMenu');
+  
+  // Note: Astro Header component handles this mostly, but if using this script for everything:
+  if (btn && mobileMenu) {
     btn.addEventListener('click', function () {
-      const expanded = this.getAttribute('aria-expanded') === 'true';
-      this.setAttribute('aria-expanded', String(!expanded));
-      if (!expanded) {
-        nav.style.display = 'flex';
-        nav.style.flexDirection = 'column';
-        nav.style.gap = '12px';
+      const isHidden = mobileMenu.classList.contains('hidden');
+      if (isHidden) {
+        mobileMenu.classList.remove('hidden');
+        mobileMenu.classList.add('flex');
+        this.setAttribute('aria-expanded', 'true');
       } else {
-        nav.style.display = '';
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('flex');
+        this.setAttribute('aria-expanded', 'false');
       }
     });
   }
 
   // Product dataset with localized names
+  // Updated paths to match existing files: product1.svg instead of product1a.svg
   const products = [
-    { id: 1, name: { es: 'Cartera Slim', en: 'Slim Wallet', fr: 'Portefeuille Slim' }, category: 'cartera', price: 29.99, color: 'gold', front: 'images/product1a.svg', back: 'images/product1b.svg', w: 600, h: 400 },
-    { id: 2, name: { es: 'Organizador Tote', en: 'Tote Organizer', fr: 'Organisateur Tote' }, category: 'organizador', price: 49.99, color: 'blue', front: 'images/product2a.svg', back: 'images/product2b.svg', w: 600, h: 400 },
-    { id: 3, name: { es: 'Monedero Chic', en: 'Chic Coin Purse', fr: 'Porte-monnaie Chic' }, category: 'monedero', price: 19.99, color: 'white', front: 'images/product3a.svg', back: 'images/product3b.svg', w: 600, h: 400 }
+    { id: 1, name: { es: 'Cartera Slim', en: 'Slim Wallet', fr: 'Portefeuille Slim' }, category: 'cartera', price: 29.99, color: 'gold', front: '/images/product1.svg', back: '/images/product1b.svg', w: 600, h: 400 },
+    { id: 2, name: { es: 'Organizador Tote', en: 'Tote Organizer', fr: 'Organisateur Tote' }, category: 'organizador', price: 49.99, color: 'blue', front: '/images/product2a.svg', back: '/images/product2b.svg', w: 600, h: 400 },
+    { id: 3, name: { es: 'Monedero Chic', en: 'Chic Coin Purse', fr: 'Porte-monnaie Chic' }, category: 'monedero', price: 19.99, color: 'white', front: '/images/product3a.svg', back: '/images/product3b.svg', w: 600, h: 400 }
   ];
 
   const translations = {
@@ -87,15 +92,34 @@ document.addEventListener('DOMContentLoaded', () => {
     productGrid.innerHTML = list.map(p => {
       const displayName = (typeof p.name === 'object') ? (p.name[locale] || p.name.es) : p.name;
       const aria = escapeHtml(displayName);
-      const webpFront = p.front.replace(/\.svg$/i, '.webp');
-      const webpBack = p.back.replace(/\.svg$/i, '.webp');
-      return `\n        <article class="card">\n          <a class="product-link" href="#" aria-label="${aria}">\n            <div class="media">\n              <div class="hover-swap" tabindex="0">\n                <picture>\n                  <source srcset="${webpFront}" type="image/webp">\n                  <img class="front" src="${p.front}" alt="${aria} - frontal" loading="lazy" width="${p.w}" height="${p.h}">\n                </picture>\n                <picture>\n                  <source srcset="${webpBack}" type="image/webp">\n                  <img class="back" src="${p.back}" alt="${aria} - trasera" loading="lazy" width="${p.w}" height="${p.h}">\n                </picture>\n              </div>\n            </div>\n            <div class="card-body">\n              <h3>${aria}</h3>\n              <p class="price">$${String(p.price)}</p>\n            </div>\n          </a>\n        </article>\n      `;
+      
+      return `
+        <article class="bg-white rounded-xl shadow-[0_10px_30px_rgba(11,17,28,0.06)] hover:shadow-[0_20px_40px_rgba(11,17,28,0.12)] hover:-translate-y-2 transition-all duration-300 flex flex-col overflow-hidden group">
+          <a class="block h-full group/link" href="#" aria-label="${aria}">
+            <div class="relative h-64 flex items-center justify-center bg-gray-50 overflow-hidden">
+              <div class="hover-swap relative w-full h-full" tabindex="0">
+                <img class="absolute inset-0 w-full h-full object-contain p-4 transition-all duration-300 opacity-100 scale-100 group-hover/link:opacity-0 group-hover/link:scale-95 [.swap_&]:opacity-0 [.swap_&]:scale-95" 
+                     src="${p.front}" alt="${aria} - frontal" loading="lazy" width="${p.w}" height="${p.h}">
+                
+                <img class="absolute inset-0 w-full h-full object-contain p-4 transition-all duration-300 opacity-0 scale-105 group-hover/link:opacity-100 group-hover/link:scale-100 [.swap_&]:opacity-100 [.swap_&]:scale-100" 
+                     src="${p.back}" alt="${aria} - trasera" loading="lazy" width="${p.w}" height="${p.h}">
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-poppins font-semibold text-lg text-gray-900 mb-2">${aria}</h3>
+              <p class="text-blue-700 font-bold">$${String(p.price)}</p>
+            </div>
+          </a>
+        </article>
+      `;
     }).join('');
 
-    // Re-bind hover-swap handlers
+    // Re-bind hover-swap handlers for touch
     const newSwaps = document.querySelectorAll('.hover-swap');
     newSwaps.forEach(el => {
-      el.addEventListener('touchstart', () => el.classList.toggle('swap'));
+      el.addEventListener('touchstart', (e) => {
+         el.classList.toggle('swap');
+      }, {passive: true});
       el.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); el.classList.toggle('swap'); } });
     });
   }
@@ -116,6 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const key = el.getAttribute('data-i18n-placeholder');
       if (map[key]) el.placeholder = map[key];
     });
+    
+    // Re-render products to update titles
+    performSearchAndFilter();
   }
 
   if (langSelect) {
@@ -123,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
       locale = e.target.value;
       localStorage.setItem('isru_locale', locale);
       applyTranslations();
-      performSearchAndFilter();
     });
   }
 
@@ -152,5 +178,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initial setup
   applyTranslations();
-  renderProducts(products);
 });

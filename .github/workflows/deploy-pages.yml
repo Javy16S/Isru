@@ -10,24 +10,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Show repo root files
-        run: |
-          echo "=== repo root ==="
-          ls -la
-          echo "=== show package.json ==="
-          if [ -f package.json ]; then
-            sed -n '1,200p' package.json
-          else
-            echo "no package.json"
-          fi
-          echo "=== show src/pages ==="
-          if [ -d src/pages ]; then
-            ls -la src/pages || true
-            echo "--- index.astro ---"
-            sed -n '1,200p' src/pages/index.astro || true
-          else
-            echo "no src/pages"
-          fi
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -36,54 +18,22 @@ jobs:
       - name: Install dependencies
         run: npm install --include=dev --loglevel=info
 
-      - name: Show Node/NPM versions
+      - name: Build site
         run: |
-          node -v || true
-          npm -v || true
-          npx --version || true
+          echo "Building site with npx astro build"
+          npx astro --version
+          npx astro build
 
-      - name: Build site (use npx astro)
-        run: |
-          echo "Try running npx astro build"
-          npx astro --version || true
-          npx astro build || (echo "astro build failed"; exit 1)
-
-      - name: Show build output
-        run: |
-          echo "=== dist contents ==="
-          if [ -d ./dist ]; then
-            ls -la ./dist
-            echo "=== recursive list ==="
-            ls -R ./dist | sed -n '1,200p'
-          else
-            echo "dist not found"
-            exit 1
-          fi
-
-      - name: Disable Jekyll for Pages
+      - name: Ensure .nojekyll
         run: |
           if [ -d ./dist ]; then
             touch ./dist/.nojekyll
           fi
 
-      - name: Prepare publish directory (dist or fallback)
-        run: |
-          rm -rf out_to_publish
-          mkdir out_to_publish
-          if [ -d ./dist ] && [ "$(ls -A ./dist)" ]; then
-            echo "Publishing contents of ./dist"
-            cp -a ./dist/. ./out_to_publish/
-          else
-            echo "dist not found or empty — publishing repo root fallback"
-            # Copy root-level static site (index.html, css/, js/, images/)
-            rsync -a --exclude='.git' --exclude='node_modules' --exclude='.github' --exclude='src' --exclude='node_modules' --exclude='package.json' --exclude='package-lock.json' --exclude='package-lock.yaml' ./ ./out_to_publish/
-          fi
-          touch ./out_to_publish/.nojekyll
-
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out_to_publish
+          publish_dir: ./dist
           publish_branch: gh-pages
 

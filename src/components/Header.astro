@@ -1,0 +1,44 @@
+---
+---
+<header class="sticky top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md">
+  <div class="container mx-auto px-6 h-16 flex items-center justify-between">
+    <a class="font-cinzel text-2xl font-bold text-gray-900 tracking-tight" href="#">Isru</a>
+    
+    <nav class="hidden md:flex gap-8 items-center" id="mainNav">
+      <a class="text-sm font-semibold text-gray-700 hover:text-blue-900 transition-colors" data-i18n="nav.products" href="#productos">Productos</a>
+      <a class="text-sm font-semibold text-gray-700 hover:text-blue-900 transition-colors" data-i18n="nav.about" href="#about">Sobre</a>
+      <a class="text-sm font-semibold text-gray-700 hover:text-blue-900 transition-colors" data-i18n="nav.contact" href="#contacto">Contacto</a>
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <div class="hidden sm:flex items-center gap-2">
+        <label for="langSelect" class="sr-only">Idioma</label>
+        <select id="langSelect" class="bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1.5 cursor-pointer hover:bg-gray-100 transition">
+          <option value="es">🇪🇸 ES</option>
+          <option value="en">🇬🇧 EN</option>
+          <option value="fr">🇫🇷 FR</option>
+        </select>
+      </div>
+      <button class="md:hidden text-2xl text-gray-700 focus:outline-none" id="navToggle" aria-label="Abrir menú">☰</button>
+    </div>
+  </div>
+  
+  <!-- Mobile Menu (Hidden by default) -->
+  <div id="mobileMenu" class="hidden md:hidden absolute top-16 left-0 w-full bg-white border-b border-gray-100 shadow-lg py-4 px-6 flex-col gap-4">
+    <a class="block py-2 text-gray-700 font-semibold" href="#productos">Productos</a>
+    <a class="block py-2 text-gray-700 font-semibold" href="#about">Sobre</a>
+    <a class="block py-2 text-gray-700 font-semibold" href="#contacto">Contacto</a>
+  </div>
+</header>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  navToggle?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+    mobileMenu?.classList.toggle('flex');
+    const isExpanded = mobileMenu?.classList.contains('flex');
+    navToggle.setAttribute('aria-expanded', String(isExpanded));
+  });
+</script>
