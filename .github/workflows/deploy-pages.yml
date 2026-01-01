@@ -16,7 +16,12 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --include=dev
+
+      - name: Show Node/NPM versions
+        run: |
+          node -v || true
+          npm -v || true
 
       - name: Build site
         run: npm run build
