@@ -32,10 +32,17 @@
     }
 
     // Product dataset with localized names
+    // Fix: Handle subpath for GitHub Pages
+    const getBasePath = () => {
+      const host = window.location.hostname;
+      return host.includes('github.io') ? '/Isru' : '';
+    };
+    const BASE = getBasePath();
+
     const products = [
-      { id: 1, name: { es: 'Cartera Slim', en: 'Slim Wallet', fr: 'Portefeuille Slim' }, category: 'cartera', price: 29.99, color: 'gold', front: '/images/product1.svg', back: '/images/product1b.svg', w: 600, h: 400 },
-      { id: 2, name: { es: 'Organizador Tote', en: 'Tote Organizer', fr: 'Organisateur Tote' }, category: 'organizador', price: 49.99, color: 'blue', front: '/images/product2a.svg', back: '/images/product2b.svg', w: 600, h: 400 },
-      { id: 3, name: { es: 'Monedero Chic', en: 'Chic Coin Purse', fr: 'Porte-monnaie Chic' }, category: 'monedero', price: 19.99, color: 'white', front: '/images/product3a.svg', back: '/images/product3b.svg', w: 600, h: 400 }
+      { id: 1, name: { es: 'Cartera Slim', en: 'Slim Wallet', fr: 'Portefeuille Slim' }, category: 'cartera', price: 29.99, color: 'gold', front: `${BASE}/images/product1.svg`, back: `${BASE}/images/product1b.svg`, w: 600, h: 400 },
+      { id: 2, name: { es: 'Organizador Tote', en: 'Tote Organizer', fr: 'Organisateur Tote' }, category: 'organizador', price: 49.99, color: 'blue', front: `${BASE}/images/product2a.svg`, back: `${BASE}/images/product2b.svg`, w: 600, h: 400 },
+      { id: 3, name: { es: 'Monedero Chic', en: 'Chic Coin Purse', fr: 'Porte-monnaie Chic' }, category: 'monedero', price: 19.99, color: 'white', front: `${BASE}/images/product3a.svg`, back: `${BASE}/images/product3b.svg`, w: 600, h: 400 }
     ];
 
     const translations = {
