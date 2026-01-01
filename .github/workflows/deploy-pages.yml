@@ -18,4 +18,4 @@ jobs:
           publish_dir: ./
           publish_branch: gh-pages
           # optional: keep_history: true
-        with:
+
