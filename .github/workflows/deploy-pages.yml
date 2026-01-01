@@ -10,6 +10,24 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Show repo root files
+        run: |
+          echo "=== repo root ==="
+          ls -la
+          echo "=== show package.json ==="
+          if [ -f package.json ]; then
+            sed -n '1,200p' package.json
+          else
+            echo "no package.json"
+          fi
+          echo "=== show src/pages ==="
+          if [ -d src/pages ]; then
+            ls -la src/pages || true
+            echo "--- index.astro ---"
+            sed -n '1,200p' src/pages/index.astro || true
+          else
+            echo "no src/pages"
+          fi
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
