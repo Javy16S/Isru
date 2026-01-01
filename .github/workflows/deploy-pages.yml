@@ -48,11 +48,25 @@ jobs:
             touch ./dist/.nojekyll
           fi
 
+      - name: Prepare publish directory (dist or fallback)
+        run: |
+          rm -rf out_to_publish
+          mkdir out_to_publish
+          if [ -d ./dist ] && [ "$(ls -A ./dist)" ]; then
+            echo "Publishing contents of ./dist"
+            cp -a ./dist/. ./out_to_publish/
+          else
+            echo "dist not found or empty — publishing repo root fallback"
+            # Copy root-level static site (index.html, css/, js/, images/)
+            rsync -a --exclude='.git' --exclude='node_modules' --exclude='.github' --exclude='src' --exclude='node_modules' --exclude='package.json' --exclude='package-lock.json' --exclude='package-lock.yaml' ./ ./out_to_publish/
+          fi
+          touch ./out_to_publish/.nojekyll
+
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./out_to_publish
           publish_branch: gh-pages
           # keep_history: conserva el historial y evita sobrescribir completamente la rama gh-pages
           keep_history: true
