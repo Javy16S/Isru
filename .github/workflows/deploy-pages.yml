@@ -16,15 +16,19 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install --include=dev
+        run: npm install --include=dev --loglevel=info
 
       - name: Show Node/NPM versions
         run: |
           node -v || true
           npm -v || true
+          npx --version || true
 
-      - name: Build site
-        run: npm run build
+      - name: Build site (use npx astro)
+        run: |
+          echo "Try running npx astro build"
+          npx astro --version || true
+          npx astro build || (echo "astro build failed"; exit 1)
 
       - name: Show build output
         run: |
