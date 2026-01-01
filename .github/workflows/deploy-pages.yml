@@ -21,6 +21,18 @@ jobs:
       - name: Build site
         run: npm run build
 
+      - name: Show build output
+        run: |
+          echo "=== dist contents ==="
+          if [ -d ./dist ]; then
+            ls -la ./dist
+            echo "=== recursive list ==="
+            ls -R ./dist | sed -n '1,200p'
+          else
+            echo "dist not found"
+            exit 1
+          fi
+
       - name: Disable Jekyll for Pages
         run: |
           if [ -d ./dist ]; then
