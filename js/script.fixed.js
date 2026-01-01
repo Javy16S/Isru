@@ -1,34 +1,27 @@
 (function () {
   function init() {
+    // Prevent double initialization
+    if (document.body.dataset.isruScriptInit) return;
+    document.body.dataset.isruScriptInit = 'true';
+
     console.log('Isru script initializing...');
 
     // Year
     const year = document.getElementById('year');
     if (year) year.textContent = new Date().getFullYear();
 
-    // Mobile nav toggle (Handled in Astro component now, but keeping for backup/compatibility if logic runs)
-    const nav = document.getElementById('mainNav');
+    // Mobile nav toggle
     const btn = document.getElementById('navToggle');
     const mobileMenu = document.getElementById('mobileMenu');
 
     // Note: Astro Header component handles this mostly, but if using this script for everything:
     if (btn && mobileMenu) {
-      // Remove old listeners to avoid duplicates if re-initialized
-      const newBtn = btn.cloneNode(true);
-      btn.parentNode.replaceChild(newBtn, btn);
-
-      newBtn.addEventListener('click', function () {
-        const isHidden = mobileMenu.classList.contains('hidden');
-        if (isHidden) {
-          mobileMenu.classList.remove('hidden');
-          mobileMenu.classList.add('flex');
-          this.setAttribute('aria-expanded', 'true');
-        } else {
-          mobileMenu.classList.add('hidden');
-          mobileMenu.classList.remove('flex');
-          this.setAttribute('aria-expanded', 'false');
-        }
-      });
+      // Use existing listener if Astro attached it, or attach one here.
+      // To avoid conflict, we only attach if no Astro script did. 
+      // But since we can't know, we just ensure simple toggle logic.
+      // Actually, Header.astro has its own script. 
+      // Let's NOT interfere with Header.astro script if it exists.
+      // But user complained about visibility etc.
     }
 
     // Product dataset with localized names
@@ -87,8 +80,6 @@
     const colorFilter = document.getElementById('colorFilter');
     const priceMax = document.getElementById('priceMax');
     const langSelect = document.getElementById('langSelect');
-
-    console.log('Language selector found:', langSelect);
 
     // Locale handling
     const supported = ['es', 'en', 'fr'];
@@ -158,8 +149,6 @@
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (map[key]) {
-          // Check if it's an option element to safe-guard dropdowns if any (though ours are manual)
-          // Actually, our language dropdown is hardcoded, but category filters are dynamic-ish.
           el.textContent = map[key];
         }
       });
@@ -173,18 +162,22 @@
     }
 
     if (langSelect) {
-      // Clone to remove previous listeners if any (safety)
-      const newLangSelect = langSelect.cloneNode(true);
-      langSelect.parentNode.replaceChild(newLangSelect, langSelect);
-
-      newLangSelect.addEventListener('change', (e) => {
-        console.log('Language changed to:', e.target.value);
-        locale = e.target.value;
-        localStorage.setItem('isru_locale', locale);
-        applyTranslations();
-      });
-      // Force set value again in case cloning lost it
-      newLangSelect.value = locale;
+      // Remove cloning. Just attach safely.
+      // Use a flag on the element to avoid duplicate listeners.
+      if (!langSelect.dataset.hasIsruListener) {
+        langSelect.dataset.hasIsruListener = 'true';
+        langSelect.addEventListener('change', (e) => {
+          console.log('Language changed to:', e.target.value);
+          locale = e.target.value;
+          try {
+            localStorage.setItem('isru_locale', locale);
+          } catch (err) {
+            console.error('Could not save locale:', err);
+          }
+          applyTranslations();
+        });
+      }
+      langSelect.value = locale;
     }
 
     function performSearchAndFilter() {
@@ -205,25 +198,19 @@
 
     function debounce(fn, wait = 220) { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); }; }
 
-    if (searchInput) {
-      const newSearch = searchInput.cloneNode(true);
-      searchInput.parentNode.replaceChild(newSearch, searchInput);
-      newSearch.addEventListener('input', debounce(performSearchAndFilter, 180));
-    }
-
-    // Helper to safely clone and attach listener
-    function attachListener(id, event, fn) {
+    // Inputs setup with anti-duplication
+    const setupListener = (id, event, fn) => {
       const el = document.getElementById(id);
-      if (el) {
-        const newEl = el.cloneNode(true);
-        el.parentNode.replaceChild(newEl, el);
-        newEl.addEventListener(event, fn);
+      if (el && !el.dataset.hasIsruListener) {
+        el.dataset.hasIsruListener = 'true';
+        el.addEventListener(event, fn);
       }
-    }
+    };
 
-    attachListener('categoryFilter', 'change', performSearchAndFilter);
-    attachListener('colorFilter', 'change', performSearchAndFilter);
-    attachListener('priceMax', 'input', debounce(performSearchAndFilter, 180));
+    setupListener('searchInput', 'input', debounce(performSearchAndFilter, 180));
+    setupListener('categoryFilter', 'change', performSearchAndFilter);
+    setupListener('colorFilter', 'change', performSearchAndFilter);
+    setupListener('priceMax', 'input', debounce(performSearchAndFilter, 180));
 
     // Initial setup
     applyTranslations();
