@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+---
+
+<Layout title="Política de Privacidad | Isru Studio">
+  <main class="w-full max-w-4xl mx-auto px-4 md:px-12 pt-32 pb-20 fade-in">
+    <nav class="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gray-500 mb-12">
+        <a href={`${BASE}/`} class="hover:text-black transition-colors" data-i18n="nav.products">Home</a>
+        <span>/</span>
+        <span class="text-gray-900" data-i18n="footer.privacy">Privacy Policy</span>
+    </nav>
+
+    <h1 class="font-cinzel text-4xl text-gray-900 mb-8" data-i18n="footer.privacy">Política de Privacidad</h1>
+    
+    <div class="prose prose-gray max-w-none text-gray-600 font-light space-y-6">
+      <p>
+        En Isru Studio, nos comprometemos a proteger su privacidad. Esta política detalla cómo recopilamos, usamos y protegemos su información personal.
+      </p>
+
+      <h3 class="text-gray-900 font-normal uppercase tracking-wide text-sm mt-8">Recopilación de Información</h3>
+      <p>
+        Recopilamos información que usted nos proporciona directamente al realizar una compra, registrarse en nuestro boletín o contactarnos. Esto puede incluir su nombre, dirección de correo electrónico, dirección de envío y detalles de pago.
+      </p>
+
+      <h3 class="text-gray-900 font-normal uppercase tracking-wide text-sm mt-8">Uso de la Información</h3>
+      <p>
+        Utilizamos su información para procesar pedidos, comunicarnos con usted sobre sus compras y, si ha optado por ello, enviarle actualizaciones sobre nuestros nuevos productos y ofertas exclusivas.
+      </p>
+
+      <h3 class="text-gray-900 font-normal uppercase tracking-wide text-sm mt-8">Seguridad</h3>
+      <p>
+        Implementamos medidas de seguridad para proteger sus datos personales contra el acceso no autorizado, la alteración o la divulgación.
+      </p>
+      
+      <p class="text-sm mt-12 border-t border-gray-100 pt-8">
+        Última actualización: Enero 2026.
+      </p>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

@@ -14,65 +14,30 @@
     const btn = document.getElementById('navToggle');
     const mobileMenu = document.getElementById('mobileMenu');
 
-    // Note: Astro Header component handles this mostly, but if using this script for everything:
     if (btn && mobileMenu) {
-      // Use existing listener if Astro attached it, or attach one here.
-      // To avoid conflict, we only attach if no Astro script did. 
-      // But since we can't know, we just ensure simple toggle logic.
-      // Actually, Header.astro has its own script. 
-      // Let's NOT interfere with Header.astro script if it exists.
-      // But user complained about visibility etc.
+      // Managed by Astro component mostly
     }
 
     // Product dataset with localized names
-    // Fix: Handle subpath for GitHub Pages
+    // Fix: Handle subpath for GitHub Pages AND Localhost subpaths
     const getBasePath = () => {
-      const host = window.location.hostname;
-      return host.includes('github.io') ? '/Isru' : '';
+      const path = window.location.pathname;
+      // If we are on a known subpath (e.g. GitHub pages)
+      if (path.startsWith('/Isru')) return '/Isru';
+      return '';
     };
     const BASE = getBasePath();
 
-    const products = [
-      { id: 1, name: { es: 'Cartera Slim', en: 'Slim Wallet', fr: 'Portefeuille Slim' }, category: 'cartera', price: 29.99, color: 'gold', front: `${BASE}/images/product1.svg`, back: `${BASE}/images/product1b.svg`, w: 600, h: 400 },
-      { id: 2, name: { es: 'Organizador Tote', en: 'Tote Organizer', fr: 'Organisateur Tote' }, category: 'organizador', price: 49.99, color: 'blue', front: `${BASE}/images/product2a.svg`, back: `${BASE}/images/product2b.svg`, w: 600, h: 400 },
-      { id: 3, name: { es: 'Monedero Chic', en: 'Chic Coin Purse', fr: 'Porte-monnaie Chic' }, category: 'monedero', price: 19.99, color: 'white', front: `${BASE}/images/product3a.svg`, back: `${BASE}/images/product3b.svg`, w: 600, h: 400 }
-    ];
+    // Use data injected from Astro (Products.astro)
+    // Fallback to empty if not found to prevent crash, though it should be there.
+    const products = (window.ISRU_PRODUCTS || []).map(p => ({
+      ...p,
+      // Ensure paths are absolute for the client
+      front: p.front.startsWith('http') || p.front.startsWith('/') ? p.front : `${BASE}/images/${p.front}`,
+      back: p.back.startsWith('http') || p.back.startsWith('/') ? p.back : `${BASE}/images/${p.back}`
+    }));
 
-    const translations = {
-      es: {
-        'nav.products': 'Productos', 'nav.about': 'Sobre', 'nav.contact': 'Contacto',
-        'hero.title': 'Accesorios elegantes para organizar tu día', 'hero.subtitle': 'Diseños minimalistas en tonos dorado y azul para llevar todo lo esencial con estilo.', 'hero.cta': 'Ver colección',
-        'products.title': 'Productos destacados', 'about.title': 'Sobre Isru', 'about.text': 'Isru diseña accesorios pensados para la mujer moderna: prácticos, elegantes y duraderos. Cada pieza está creada para ayudarte a mantener tus esenciales organizados sin sacrificar estilo.',
-        'contact.title': 'Contacto', 'contact.name': 'Nombre', 'contact.email': 'Email', 'contact.message': 'Mensaje', 'contact.send': 'Enviar',
-        'search.placeholder': 'Buscar productos...',
-        'contact.name.placeholder': 'Tu nombre', 'contact.email.placeholder': 'tu@correo.com', 'contact.message.placeholder': '¿En qué te podemos ayudar?',
-        'cat.all': 'Todas las categorías', 'cat.cartera': 'Carteras', 'cat.organizador': 'Organizadores', 'cat.monedero': 'Monederos',
-        'col.all': 'Todos los colores', 'col.gold': 'Dorado', 'col.blue': 'Azul', 'col.white': 'Blanco',
-        'controls.priceMax': 'Máx'
-      },
-      en: {
-        'nav.products': 'Products', 'nav.about': 'About', 'nav.contact': 'Contact',
-        'hero.title': 'Elegant accessories to organize your day', 'hero.subtitle': 'Minimal designs in gold and blue tones to carry your essentials in style.', 'hero.cta': 'View collection',
-        'products.title': 'Featured products', 'about.title': 'About Isru', 'about.text': 'Isru designs accessories for the modern woman: practical, elegant and durable. Each piece helps keep your essentials organized without sacrificing style.',
-        'contact.title': 'Contact', 'contact.name': 'Name', 'contact.email': 'Email', 'contact.message': 'Message', 'contact.send': 'Send',
-        'search.placeholder': 'Search products...',
-        'contact.name.placeholder': 'Your name', 'contact.email.placeholder': 'you@domain.com', 'contact.message.placeholder': 'How can we help you?',
-        'cat.all': 'All categories', 'cat.cartera': 'Wallets', 'cat.organizador': 'Organizers', 'cat.monedero': 'Coin purses',
-        'col.all': 'All colors', 'col.gold': 'Gold', 'col.blue': 'Blue', 'col.white': 'White',
-        'controls.priceMax': 'Max'
-      },
-      fr: {
-        'nav.products': 'Produits', 'nav.about': 'À propos', 'nav.contact': 'Contact',
-        'hero.title': 'Accessoires élégants pour organiser votre journée', 'hero.subtitle': 'Designs minimalistes aux tons doré et bleu pour emporter l\'essentiel avec style.', 'hero.cta': 'Voir la collection',
-        'products.title': 'Produits phares', 'about.title': 'À propos d\'Isru', 'about.text': 'Isru conçoit des accessoires pour la femme moderne : pratiques, élégants et durables. Chaque pièce aide à garder l\'essentiel organisé sans sacrificar el estilo.',
-        'contact.title': 'Contact', 'contact.name': 'Nom', 'contact.email': 'Email', 'contact.message': 'Message', 'contact.send': 'Envoyer',
-        'search.placeholder': 'Rechercher des produits...',
-        'contact.name.placeholder': 'Votre nom', 'contact.email.placeholder': 'vous@exemple.com', 'contact.message.placeholder': 'Comment pouvons-nous vous aider?',
-        'cat.all': 'Toutes les catégories', 'cat.cartera': 'Portefeuilles', 'cat.organizador': 'Organisateurs', 'cat.monedero': 'Porte-monnaie',
-        'col.all': 'Toutes les couleurs', 'col.gold': 'Doré', 'col.blue': 'Bleu', 'col.white': 'Blanc',
-        'controls.priceMax': 'Max'
-      }
-    };
+    // Translations moved to Layout.astro (Global) and pdp specific logic to [id].astro
 
     const productGrid = document.getElementById('productGrid');
     const searchInput = document.getElementById('searchInput');
@@ -82,103 +47,79 @@
     const langSelect = document.getElementById('langSelect');
 
     // Locale handling
-    const supported = ['es', 'en', 'fr'];
+    // Locale handling
     function getSavedLocale() {
       try {
         const saved = localStorage.getItem('isru_locale');
-        if (saved && supported.includes(saved)) return saved;
-        const nav = navigator.language ? navigator.language.slice(0, 2) : 'es';
-        return supported.includes(nav) ? nav : 'es';
+        return saved || 'es';
       } catch (e) {
         return 'es';
       }
     }
     let locale = getSavedLocale();
-    if (langSelect) langSelect.value = locale;
+    if (langSelect) langSelect.value = locale; // Sync initial value if global didn't catches it yet (race condition safety)
 
-    // Render products
+    // Render products MINIMALIST VERSION
     function renderProducts(list) {
       if (!productGrid) return;
-      productGrid.innerHTML = list.map(p => {
+      productGrid.innerHTML = list.map((p, index) => {
         const displayName = (typeof p.name === 'object') ? (p.name[locale] || p.name.es) : p.name;
+        // ... rest of render logic remains implicitly the same if I don't change it here, but I must provide the full function content if I am replacing the block
+        // Wait, replace_file_content requires exact target match. I should be careful.
+        // Let's just modify the translation/listener parts.
+
         const aria = escapeHtml(displayName);
-        // Correct path assumption
         const frontPath = p.front;
         const backPath = p.back;
 
+        // Minimalist Card: Magazine Style
+        // Aspect ratio 3/4 for fashion look
         return `
-          <article class="bg-white rounded-xl shadow-[0_10px_30px_rgba(11,17,28,0.06)] hover:shadow-[0_20px_40px_rgba(11,17,28,0.12)] hover:-translate-y-2 transition-all duration-300 flex flex-col overflow-hidden group">
-            <a class="block h-full group/link" href="#" aria-label="${aria}">
-              <div class="relative h-64 flex items-center justify-center bg-gray-50 overflow-hidden">
-                <div class="hover-swap relative w-full h-full" tabindex="0">
-                  <img class="absolute inset-0 w-full h-full object-contain p-4 transition-all duration-300 opacity-100 scale-100 group-hover/link:opacity-0 group-hover/link:scale-95 [.swap_&]:opacity-0 [.swap_&]:scale-95" 
-                       src="${frontPath}" alt="${aria} - frontal" loading="lazy" width="${p.w}" height="${p.h}">
+          <article class="group relative animate-fade-in" style="animation-delay: ${index * 100}ms">
+            <a class="block relative" href="${BASE}/product/${p.id}" aria-label="${aria}">
+              <div class="relative aspect-[3/4] w-full bg-[#f8f8f8] overflow-hidden mb-4 rounded-sm">
+                <div class="hover-swap relative w-full h-full">
+                  <img class="absolute inset-0 w-full h-full object-contain p-0 transition-transform duration-700 ease-out opacity-100 scale-100 group-hover:scale-105" 
+                       src="${frontPath}" alt="${aria} - frontal" loading="lazy">
                   
-                  <img class="absolute inset-0 w-full h-full object-contain p-4 transition-all duration-300 opacity-0 scale-105 group-hover/link:opacity-100 group-hover/link:scale-100 [.swap_&]:opacity-100 [.swap_&]:scale-100" 
-                       src="${backPath}" alt="${aria} - trasera" loading="lazy" width="${p.w}" height="${p.h}">
+                  <img class="absolute inset-0 w-full h-full object-contain p-0 transition-transform duration-700 ease-out opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-100" 
+                       src="${backPath}" alt="${aria} - trasera" loading="lazy">
                 </div>
+                
+                <!-- NEW Badge if new (stub logic) -->
+                ${p.id === 1 ? '<span class="absolute top-4 left-4 text-[10px] uppercase tracking-[0.2em] text-gray-400">New Arrival</span>' : ''}
               </div>
-              <div class="p-4">
-                <h3 class="font-poppins font-semibold text-lg text-gray-900 mb-2">${aria}</h3>
-                <p class="text-blue-700 font-bold">$${String(p.price)}</p>
+              
+              <div class="text-left space-y-1">
+                <h3 class="font-cinzel text-base text-gray-900 tracking-wide group-hover:underline decoration-gray-300 underline-offset-4 decoration-1 transition-all">${aria}</h3>
+                <p class="font-light text-sm text-gray-500 tracking-wide">$${String(p.price)}</p>
               </div>
             </a>
           </article>
         `;
       }).join('');
 
-      // Re-bind hover-swap handlers for touch
       const newSwaps = document.querySelectorAll('.hover-swap');
       newSwaps.forEach(el => {
-        el.addEventListener('touchstart', (e) => {
-          el.classList.toggle('swap');
-        }, { passive: true });
+        el.addEventListener('touchstart', (e) => { el.classList.toggle('swap'); }, { passive: true });
         el.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); el.classList.toggle('swap'); } });
       });
     }
 
     function escapeHtml(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;'); }
 
-    // Fuse.js
     let fuse;
     if (window.Fuse) fuse = new Fuse(products, { keys: ['name.es', 'name.en', 'name.fr', 'category', 'color'], threshold: 0.35 });
 
-    function applyTranslations() {
-      console.log('Applying translations for locale:', locale);
-      const map = translations[locale] || translations['es'];
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (map[key]) {
-          el.textContent = map[key];
-        }
-      });
-      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        if (map[key]) el.placeholder = map[key];
-      });
-
-      // Re-render products to update titles
+    // Listen to GLOBAL locale change
+    document.addEventListener('localeChanged', (e) => {
+      console.log('Script fixed received locale change:', e.detail.locale);
+      locale = e.detail.locale;
       performSearchAndFilter();
-    }
+    });
 
-    if (langSelect) {
-      // Remove cloning. Just attach safely.
-      // Use a flag on the element to avoid duplicate listeners.
-      if (!langSelect.dataset.hasIsruListener) {
-        langSelect.dataset.hasIsruListener = 'true';
-        langSelect.addEventListener('change', (e) => {
-          console.log('Language changed to:', e.target.value);
-          locale = e.target.value;
-          try {
-            localStorage.setItem('isru_locale', locale);
-          } catch (err) {
-            console.error('Could not save locale:', err);
-          }
-          applyTranslations();
-        });
-      }
-      langSelect.value = locale;
-    }
+    // Initial render
+    performSearchAndFilter();
 
     function performSearchAndFilter() {
       const term = searchInput ? searchInput.value.trim() : '';
@@ -198,7 +139,6 @@
 
     function debounce(fn, wait = 220) { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); }; }
 
-    // Inputs setup with anti-duplication
     const setupListener = (id, event, fn) => {
       const el = document.getElementById(id);
       if (el && !el.dataset.hasIsruListener) {
@@ -212,8 +152,8 @@
     setupListener('colorFilter', 'change', performSearchAndFilter);
     setupListener('priceMax', 'input', debounce(performSearchAndFilter, 180));
 
-    // Initial setup
-    applyTranslations();
+    // Init
+    // applyTranslations(); // Removed, handled by global logic + localeChanged listener
   }
 
   if (document.readyState === 'loading') {

@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+---
+
+<Layout title="Términos y Condiciones | Isru Studio">
+  <main class="w-full max-w-4xl mx-auto px-4 md:px-12 pt-32 pb-20 fade-in">
+    <nav class="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gray-500 mb-12">
+        <a href={`${BASE}/`} class="hover:text-black transition-colors" data-i18n="nav.products">Home</a>
+        <span>/</span>
+        <span class="text-gray-900" data-i18n="footer.terms">Terms</span>
+    </nav>
+
+    <h1 class="font-cinzel text-4xl text-gray-900 mb-8" data-i18n="footer.terms">Términos y Condiciones</h1>
+    
+    <div class="prose prose-gray max-w-none text-gray-600 font-light space-y-6">
+      <p>
+        Bienvenido a Isru Studio. Al acceder a nuestro sitio web y realizar compras, usted acepta los siguientes términos y condiciones.
+      </p>
+
+      <h3 class="text-gray-900 font-normal uppercase tracking-wide text-sm mt-8">Uso del Sitio</h3>
+      <p>
+        El contenido de este sitio es para su información y uso personal. Está sujeto a cambios sin previo aviso.
+      </p>
+
+      <h3 class="text-gray-900 font-normal uppercase tracking-wide text-sm mt-8">Productos y Precios</h3>
+      <p>
+        Nos esforzamos por mostrar con precisión los colores y las imágenes de nuestros productos. Sin embargo, no podemos garantizar que la pantalla de su monitor refleje exactamente el color real. Los precios están sujetos a cambios sin previo aviso.
+      </p>
+
+      <h3 class="text-gray-900 font-normal uppercase tracking-wide text-sm mt-8">Envíos y Devoluciones</h3>
+      <p>
+        Consulte nuestra sección de envíos y devoluciones en la página de cada producto para obtener información detallada sobre nuestras políticas de entrega y reembolso.
+      </p>
+
+      <p class="text-sm mt-12 border-t border-gray-100 pt-8">
+        Última actualización: Enero 2026.
+      </p>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

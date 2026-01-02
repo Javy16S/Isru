@@ -1,37 +1,52 @@
 ---
 ---
-<section class="py-16 md:py-24 bg-gradient-to-b from-white to-blue-50/30">
-  <div class="w-full max-w-[1920px] mx-auto px-4 md:px-8 grid md:grid-cols-2 gap-12 items-center">
-    <!-- Text content wrapper for better alignment on wide screens -->
-    <div class="space-y-6 animate-fade-in-up pl-4 md:pl-12 lg:pl-20">
-      <h1 class="font-cinzel text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight" data-i18n="hero.title">
-        Accesorios elegantes para organizar tu día
-      </h1>
-      <p class="text-xl md:text-2xl text-gray-600 max-w-xl leading-relaxed" data-i18n="hero.subtitle">
-        Diseños minimalistas en tonos dorado y azul para llevar todo lo esencial con estilo.
-      </p>
-      <div class="pt-6">
-        <a class="inline-block bg-gray-900 text-white font-semibold py-4 px-10 rounded-full shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 text-lg" 
+<section class="relative min-h-[90vh] flex items-center bg-white overflow-hidden">
+  <div class="w-full max-w-[1920px] mx-auto px-4 md:px-12 grid lg:grid-cols-2 gap-16 items-center">
+    
+    <!-- Text Content (Left) -->
+    <div class="space-y-8 pl-4 lg:pl-12 order-2 lg:order-1">
+      <div class="space-y-4">
+        <span class="block text-gray-500 text-sm tracking-[0.3em] uppercase animate-fade-in" style="animation-delay: 0.1s;">New Collection 2026</span>
+        <h1 class="font-cinzel text-5xl md:text-7xl text-gray-900 leading-[1.1] font-light animate-fade-in" style="animation-delay: 0.2s;" data-i18n="hero.title">
+          Isru Studio
+        </h1>
+        <p class="text-lg md:text-xl text-gray-600 max-w-md leading-relaxed font-light animate-fade-in" style="animation-delay: 0.3s;" data-i18n="hero.subtitle">
+          Timeless accessories designed for the modern lifestyle.
+        </p>
+      </div>
+
+      <div class="pt-4 animate-fade-in" style="animation-delay: 0.4s;">
+        <a class="group inline-flex items-center gap-3 text-sm uppercase tracking-[0.2em] text-gray-900 border-b border-gray-900 pb-1 hover:text-gray-600 hover:border-gray-600 transition-all duration-300" 
            id="btnViewCollection" 
            href="#productos" 
            data-i18n="hero.cta">
-          Ver colección
+          Explore Collection
+          <svg class="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
         </a>
       </div>
     </div>
     
-    <div class="relative group w-full h-full flex items-center justify-center p-4" aria-hidden="true">
-      <div class="absolute inset-4 bg-gradient-to-r from-gold/20 to-blue/20 rounded-[2rem] blur-2xl opacity-60 group-hover:opacity-100 transition duration-500"></div>
-      <picture class="relative w-full max-w-2xl transform transition duration-500 hover:scale-[1.01]">
-        <source srcset={`${import.meta.env.BASE_URL}images/imagen_muestra.avif`} type="image/avif">
-        <img src={`${import.meta.env.BASE_URL}images/imagen_muestra.avif`} 
-             alt="Isru Colección" 
-             width="720" 
-             height="480" 
+    <!-- Image (Right) -->
+    <div class="relative h-[60vh] lg:h-[85vh] w-full order-1 lg:order-2 bg-gray-50 overflow-hidden rounded-sm">
+      <picture class="absolute inset-0 w-full h-full">
+        <source srcset={`${import.meta.env.BASE_URL}/images/imagen_muestra.avif`} type="image/avif">
+        <img src={`${import.meta.env.BASE_URL}/images/imagen_muestra.avif`} 
+             alt="Isru Editorial" 
+             class="w-full h-full object-cover object-center transform scale-100 transition-transform duration-[2s] hover:scale-105"
              loading="eager" 
-             fetchpriority="high"
-             class="w-full h-auto rounded-[2rem] shadow-2xl" />
+             fetchpriority="high" />
       </picture>
     </div>
   </div>
 </section>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

@@ -1,0 +1,204 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { products } from '../../data/products';
+
+export async function getStaticPaths() {
+  return products.map(product => ({
+    params: { id: product.id.toString() },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const { id, name, price, description, front, back, color, category } = product;
+
+// Helper for image paths
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+const frontImg = `${BASE}/images/${front}`;
+const backImg = `${BASE}/images/${back}`;
+
+---
+
+<Layout title={`${name.es} | Isru Studio`} description={description.es}>
+  <main class="w-full max-w-[1920px] mx-auto px-4 md:px-12 pt-32 pb-20"
+        data-product-id={id}
+        data-product-name={name.es}
+        data-product-price={price}
+        data-product-image={frontImg}
+        data-product-full={JSON.stringify(product)}>
+    
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gray-500 mb-12 animate-fade-in">
+      <a href={`${BASE}/`} class="hover:text-black transition-colors" data-i18n="nav.products">Shop</a>
+      <span>/</span>
+      <span class="text-gray-900" id="pdp-breadcrumb-name">{name.es}</span>
+    </nav>
+
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-24">
+      
+      <!-- Gallery (Left) -->
+      <div class="space-y-4 animate-fade-in" style="animation-delay: 0.1s;">
+        <div class="bg-[#f8f8f8] aspect-[3/4] w-full flex items-center justify-center p-12">
+           <img src={frontImg} alt={name.es} class="w-full h-full object-contain" />
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+           <div class="bg-[#f8f8f8] aspect-square flex items-center justify-center p-8">
+              <img src={backImg} alt={`${name.es} - Trasera`} class="w-full h-full object-contain" />
+           </div>
+           <div class="bg-[#f8f8f8] aspect-square flex items-center justify-center p-8">
+              <img src={frontImg} alt={`${name.es} - Detalle`} class="w-full h-full object-contain scale-125" />
+           </div>
+        </div>
+      </div>
+
+      <!-- Details (Right) -->
+      <div class="sticky top-32 h-fit space-y-10 animate-fade-in" style="animation-delay: 0.2s;">
+        <div class="space-y-4 border-b border-gray-100 pb-10">
+          <span class="text-xs uppercase tracking-[0.3em] text-gray-400" data-i18n={`cat.${category}`}>{category}</span>
+          <h1 id="pdp-title" class="font-cinzel text-4xl md:text-5xl text-gray-900 font-light leading-tight">{name.es}</h1>
+          <p class="text-xl text-gray-600 font-light">${price}</p>
+        </div>
+
+        <div class="space-y-6">
+          <p id="pdp-desc" class="text-gray-600 leading-relaxed font-light text-sm md:text-base">
+            {description.es}
+          </p>
+
+          <!-- Selectors -->
+          <div class="space-y-6 pt-4">
+             <!-- Color (Visual) -->
+             <div class="space-y-3">
+                <span id="pdp-color-label" class="text-xs uppercase tracking-[0.2em] text-gray-900">Color: {color}</span>
+                <div class="flex gap-3">
+                   <button class={`w-8 h-8 rounded-full border border-gray-200 focus:ring-1 focus:ring-offset-2 focus:ring-gray-900 ${color === 'gold' ? 'bg-[#D4AF37]' : color === 'blue' ? 'bg-[#1e3a8a]' : 'bg-white'}`}></button>
+                </div>
+             </div>
+
+             <!-- Add to Cart -->
+             <div class="flex gap-4 pt-6">
+                <div class="flex items-center border border-gray-200">
+                   <button id="decreaseBtn" class="px-4 py-3 hover:bg-gray-50 text-gray-500">-</button>
+                   <span id="quantity" class="px-4 py-3 text-sm min-w-[3rem] text-center">1</span>
+                   <button id="increaseBtn" class="px-4 py-3 hover:bg-gray-50 text-gray-500">+</button>
+                </div>
+                <button id="add-to-cart-btn" class="flex-1 bg-gray-900 text-white uppercase tracking-[0.2em] text-xs py-3 hover:bg-gray-800 transition-colors" data-i18n="pdp.add">
+                   Add to Cart
+                </button>
+             </div>
+          </div>
+        </div>
+
+        <!-- Accordions (Stub) -->
+        <div class="border-t border-gray-100 pt-6 space-y-4">
+           <details class="group cursor-pointer">
+              <summary class="flex justify-between items-center text-xs uppercase tracking-[0.2em] text-gray-900 list-none">
+                 <span data-i18n="pdp.materials">Materials & Care</span>
+                 <span class="transform group-open:rotate-180 transition-transform duration-300">+</span>
+              </summary>
+              <p class="text-gray-500 text-sm font-light mt-4 leading-relaxed" data-i18n="pdp.materials.text">
+                 Premium vegan leather. Wipe clean with a soft, dry cloth. Avoid contact with water and harsh chemicals.
+              </p>
+           </details>
+           <details class="group cursor-pointer pt-4 border-t border-gray-50">
+              <summary class="flex justify-between items-center text-xs uppercase tracking-[0.2em] text-gray-900 list-none">
+                 <span data-i18n="pdp.shipping">Shipping & Returns</span>
+                 <span class="transform group-open:rotate-180 transition-transform duration-300">+</span>
+              </summary>
+              <p class="text-gray-500 text-sm font-light mt-4 leading-relaxed" data-i18n="pdp.shipping.text">
+                 Free shipping on orders over $100. Returns accepted within 30 days of purchase in original condition.
+              </p>
+           </details>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</Layout>
+
+<script>
+  import { addCartItem, toggleCart } from '../../stores/cart';
+
+  // PDP Interactivity
+  const decreaseBtn = document.getElementById('decreaseBtn');
+  const increaseBtn = document.getElementById('increaseBtn');
+  const quantitySpan = document.getElementById('quantity');
+  const addToCartBtn = document.getElementById('add-to-cart-btn');
+  const productContainer = document.querySelector('[data-product-full]');
+
+  // Translation Update Logic
+  function updatePDP(locale) {
+     if (!productContainer) return;
+     try {
+        const product = JSON.parse(productContainer.getAttribute('data-product-full') || '{}');
+        const titleEl = document.getElementById('pdp-title');
+        const descEl = document.getElementById('pdp-desc');
+        const colorEl = document.getElementById('pdp-color-label');
+
+        if (titleEl && product.name) titleEl.textContent = product.name[locale] || product.name.es;
+        if (descEl && product.description) descEl.textContent = product.description[locale] || product.description.es;
+        if (colorEl && product.color) {
+            // Simple mapping or capitalize
+            colorEl.textContent = `COLOR: ${product.color.toUpperCase()}`;
+        }
+        
+        // Update container attributes for Cart
+        productContainer.setAttribute('data-product-name', product.name[locale] || product.name.es);
+
+     } catch(e) {
+        console.error('Failed to update PDP translations', e);
+     }
+  }
+
+  // Listen to global locale change
+  document.addEventListener('localeChanged', (e: any) => {
+      updatePDP(e.detail.locale);
+  });
+
+  // Initial Check (in case global ran first)
+  const currentLocale = localStorage.getItem('isru_locale') || 'es';
+  updatePDP(currentLocale);
+
+  
+  if (decreaseBtn && increaseBtn && quantitySpan) {
+    decreaseBtn.addEventListener('click', () => {
+      let q = parseInt(quantitySpan.textContent || '1');
+      if (q > 1) quantitySpan.textContent = (q - 1).toString();
+    });
+    
+    increaseBtn.addEventListener('click', () => {
+       let q = parseInt(quantitySpan.textContent || '1');
+       quantitySpan.textContent = (q + 1).toString();
+    });
+  }
+
+  if (addToCartBtn) {
+     addToCartBtn.addEventListener('click', () => {
+         if (productContainer) {
+            const id = parseInt(productContainer.getAttribute('data-product-id') || '0');
+            const name = productContainer.getAttribute('data-product-name') || '';
+            const price = parseFloat(productContainer.getAttribute('data-product-price') || '0');
+            const image = productContainer.getAttribute('data-product-image') || '';
+            const quantity = parseInt(quantitySpan?.textContent || '1');
+            
+            console.log('Adding to cart:', { id, name, price, image, quantity });
+
+            if (id && name) {
+                addCartItem({ id, name, price, image }, quantity);
+                toggleCart(true); 
+            }
+        }
+     });
+  }
+</script>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

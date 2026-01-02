@@ -1,38 +1,160 @@
 ---
+import { products } from '../data/products';
 ---
-<section id="productos" class="py-20 w-full max-w-[1920px] mx-auto px-4 md:px-8">
-  <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
-    <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-gray-900" data-i18n="products.title">Productos destacados</h2>
+<script define:vars={{ products }}>
+  window.ISRU_PRODUCTS = products;
+</script>
+<section id="productos" class="py-24 w-full max-w-[1920px] mx-auto px-4 md:px-12 bg-white">
+  <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 border-b border-gray-100 pb-8">
+    <div class="space-y-2">
+       <span class="text-xs uppercase tracking-[0.3em] text-gray-400">Shop Online</span>
+       <h2 class="font-cinzel text-4xl text-gray-900 font-light" data-i18n="products.title">Selected Pieces</h2>
+    </div>
     
-    <!-- Controls -->
-    <div class="product-controls flex flex-wrap gap-3 items-center w-full md:w-auto bg-white p-2 rounded-xl border border-gray-100 shadow-sm">
-      <div class="relative flex-grow md:flex-grow-0">
-         <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
+    <!-- Controls with Custom Dropdowns -->
+    <div class="product-controls flex flex-wrap gap-6 items-center w-full md:w-auto">
+      <!-- Search -->
+      <div class="relative flex-grow md:flex-grow-0 group border-b border-gray-200 focus-within:border-gray-900 transition-colors">
+         <span class="absolute inset-y-0 left-0 flex items-center pl-0 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
          </span>
-         <input id="searchInput" type="search" placeholder="Buscar..." class="pl-10 pr-4 py-2 w-full md:w-64 bg-gray-50 border-0 rounded-lg focus:ring-2 focus:ring-blue-100 transition-all text-sm" aria-label="Buscar productos">
+         <input id="searchInput" type="search" placeholder="Search..." class="pl-6 pr-4 py-2 w-full md:w-48 bg-transparent border-none outline-none text-sm placeholder-gray-400 font-light" aria-label="Buscar productos">
       </div>
 
-      <select id="categoryFilter" class="bg-gray-50 border-0 text-sm rounded-lg focus:ring-2 focus:ring-blue-100 py-2 px-3 text-gray-700 cursor-pointer hover:bg-gray-100 transition" aria-label="Filtrar por categoría">
-        <option value="all" data-i18n="cat.all">Todas</option>
-        <option value="cartera" data-i18n="cat.cartera">Carteras</option>
-        <option value="organizador" data-i18n="cat.organizador">Organizadores</option>
-        <option value="monedero" data-i18n="cat.monedero">Monederos</option>
-      </select>
+      <!-- Helper to create custom dropdown -->
+      <script>
+        function setupDropdown(id) {
+           const container = document.getElementById(id + '-container');
+           const trigger = container.querySelector('.dropdown-trigger');
+           const options = container.querySelector('.dropdown-options');
+           const select = document.getElementById(id);
+           const selectedText = trigger.querySelector('.selected-text');
 
-      <select id="colorFilter" class="bg-gray-50 border-0 text-sm rounded-lg focus:ring-2 focus:ring-blue-100 py-2 px-3 text-gray-700 cursor-pointer hover:bg-gray-100 transition" aria-label="Filtrar por color">
-        <option value="all" data-i18n="col.all">Color</option>
-        <option value="gold" data-i18n="col.gold">Dorado</option>
-        <option value="blue" data-i18n="col.blue">Azul</option>
-        <option value="white" data-i18n="col.white">Blanco</option>
-      </select>
+           trigger.addEventListener('click', (e) => {
+              e.stopPropagation();
+              // Close all others
+              document.querySelectorAll('.dropdown-options').forEach(el => {
+                 if (el !== options) el.classList.add('hidden');
+              });
+              options.classList.toggle('hidden');
+           });
+
+           options.querySelectorAll('button').forEach(btn => {
+              btn.addEventListener('click', () => {
+                 const value = btn.dataset.value;
+                 const text = btn.textContent;
+                 // Update UI
+                 selectedText.textContent = text;
+                 options.classList.add('hidden');
+                 // Update native select and dispatch change
+                 select.value = value;
+                 select.dispatchEvent(new Event('change'));
+              });
+           });
+
+           // Close on click outside
+           document.addEventListener('click', (e) => {
+              if (!container.contains(e.target)) options.classList.add('hidden');
+           });
+        }
+        
+        // Defer execution to ensure DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+           setupDropdown('categoryFilter');
+           setupDropdown('colorFilter');
+        });
+      </script>
+
+      <!-- Category Filter -->
+      <div id="categoryFilter-container" class="relative group">
+         <button class="dropdown-trigger flex items-center gap-2 py-2 text-sm text-gray-600 hover:text-black transition font-light uppercase tracking-wider">
+            <span class="selected-text" data-i18n="cat.all">Category</span>
+            <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7"></path></svg>
+         </button>
+         <div class="dropdown-options hidden absolute top-full right-0 mt-2 w-48 bg-white shadow-xl rounded-sm border border-gray-100 py-2 z-30 animate-fade-in">
+            <button class="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-black transition" data-value="all" data-i18n="cat.all">All Categories</button>
+            <button class="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-black transition" data-value="cartera" data-i18n="cat.cartera">Wallets</button>
+            <button class="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-black transition" data-value="organizador" data-i18n="cat.organizador">Organizers</button>
+            <button class="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-black transition" data-value="monedero" data-i18n="cat.monedero">Coin Purses</button>
+         </div>
+         <!-- Hidden Native Select for Logic -->
+         <select id="categoryFilter" class="hidden">
+            <option value="all">Every</option>
+            <option value="cartera">Wallets</option>
+            <option value="organizador">Organizers</option>
+            <option value="monedero">Coin</option>
+         </select>
+      </div>
+
+      <!-- Color Filter -->
+      <div id="colorFilter-container" class="relative group">
+         <button class="dropdown-trigger flex items-center gap-2 py-2 text-sm text-gray-600 hover:text-black transition font-light uppercase tracking-wider">
+            <span class="selected-text" data-i18n="col.all">Color</span>
+            <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7"></path></svg>
+         </button>
+         <div class="dropdown-options hidden absolute top-full right-0 mt-2 w-48 bg-white shadow-xl rounded-sm border border-gray-100 py-2 z-30 animate-fade-in">
+            <button class="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-black transition" data-value="all" data-i18n="col.all">All Colors</button>
+            <button class="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-black transition flex items-center gap-2" data-value="gold">
+               <span class="w-3 h-3 rounded-full bg-[#D4AF37] border border-gray-200"></span> Gold
+            </button>
+            <button class="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-black transition flex items-center gap-2" data-value="blue">
+               <span class="w-3 h-3 rounded-full bg-blue-900 border border-gray-200"></span> Blue
+            </button>
+             <button class="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-black transition flex items-center gap-2" data-value="white">
+               <span class="w-3 h-3 rounded-full bg-white border border-gray-200"></span> White
+            </button>
+         </div>
+         <!-- Hidden Native Select -->
+         <select id="colorFilter" class="hidden">
+            <option value="all">All</option>
+            <option value="gold">Gold</option>
+            <option value="blue">Blue</option>
+            <option value="white">White</option>
+         </select>
+      </div>
     </div>
   </div>
 
-  <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-    <!-- Rendered via JS -->
-    <div class="col-span-full py-12 text-center text-gray-400">
-      <div class="animate-pulse">Cargando productos...</div>
-    </div>
+  <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+    <!-- Server-Side Rendered for SEO -->
+    {products.map((p, index) => {
+      const displayName = p.name.es;
+      const frontPath = `${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL}/images/${p.front}`;
+      const backPath = `${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL}/images/${p.back}`;
+      
+      return (
+          <article class={`group relative animate-fade-in`} style={`animation-delay: ${index * 100}ms`}>
+            <a class="block relative" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL}/product/${p.id}`} aria-label={displayName}>
+              <div class="relative aspect-[3/4] w-full bg-[#f8f8f8] overflow-hidden mb-4 rounded-sm">
+                <div class="hover-swap relative w-full h-full">
+                  <img class="absolute inset-0 w-full h-full object-contain p-0 transition-transform duration-700 ease-out opacity-100 scale-100 group-hover:scale-105" 
+                       src={frontPath} alt={`${displayName} - frontal`} loading="lazy">
+                  
+                  <img class="absolute inset-0 w-full h-full object-contain p-0 transition-transform duration-700 ease-out opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-100" 
+                       src={backPath} alt={`${displayName} - trasera`} loading="lazy">
+                </div>
+                
+                {p.id === 1 && <span class="absolute top-4 left-4 text-[10px] uppercase tracking-[0.2em] text-gray-400">New Arrival</span>}
+              </div>
+              
+              <div class="text-left space-y-1">
+                <h3 class="font-cinzel text-base text-gray-900 tracking-wide group-hover:underline decoration-gray-300 underline-offset-4 decoration-1 transition-all">{displayName}</h3>
+                <p class="font-light text-sm text-gray-500 tracking-wide">${p.price}</p>
+              </div>
+            </a>
+          </article>
+      );
+    })}
   </div>
 </section>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

@@ -1,5 +1,8 @@
 ---
 import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CartDrawer from '../components/CartDrawer.astro';
 
 interface Props {
 	title: string;
@@ -35,7 +38,84 @@ const { title, description = "Isru: accesorios elegantes y minimalistas para org
 		
 		<title>{title}</title>
 	</head>
-	<body class="bg-white text-gray-900 font-sans antialiased">
+	<body class="bg-white text-gray-900 font-sans antialiased flex flex-col min-h-screen">
+		<Header />
 		<slot />
+		<Footer />
+        <CartDrawer />
+    
+    <script>
+      // Global i18n Logic
+      const translations = {
+        es: {
+          'nav.products': 'Tienda', 'nav.about': 'Nosotros', 'nav.contact': 'Contacto',
+          'hero.title': 'Isru Studio', 'hero.subtitle': 'Accesorios atemporales diseñados para el estilo de vida moderno.', 'hero.cta': 'Explorar Colección',
+          'products.title': 'Piezas Seleccionadas', 'about.title': 'Sobre Isru', 'about.text': 'Diseño consciente para la mujer contemporánea. Elegancia funcional en cada detalle.',
+          'contact.title': 'Contacto', 'contact.name': 'Nombre', 'contact.email': 'Email', 'contact.message': 'Mensaje', 'contact.send': 'Enviar',
+          'search.placeholder': 'Buscar...',
+          'cat.all': 'Categoría', 'cat.cartera': 'Carteras', 'cat.organizador': 'Organizadores', 'cat.monedero': 'Monederos', 'cat.bolso': 'Bolsos',
+          'col.all': 'Color', 'col.gold': 'Dorado', 'col.blue': 'Azul', 'col.white': 'Blanco',
+          'controls.priceMax': 'Máx',
+          'footer.privacy': 'Política de privacidad', 'footer.terms': 'Términos', 'footer.rights': 'Todos los derechos reservados',
+          'pdp.add': 'Añadir al Carrito', 'pdp.materials': 'Materiales y Cuidado', 'pdp.shipping': 'Envíos y Devoluciones',
+          'pdp.materials.text': 'Piel vegana premium. Limpiar con paño suave y seco.',
+          'pdp.shipping.text': 'Envío gratuito en pedidos superiores a $100. Devoluciones en 30 días.'
+        },
+        en: {
+          'nav.products': 'Shop', 'nav.about': 'About', 'nav.contact': 'Contact',
+          'hero.title': 'Isru Studio', 'hero.subtitle': 'Timeless accessories designed for the modern lifestyle.', 'hero.cta': 'Explore Collection',
+          'products.title': 'Selected Pieces', 'about.title': 'About Isru', 'about.text': 'Conscious design for the contemporary woman. Functional elegance in every detail.',
+          'contact.title': 'Contact', 'contact.name': 'Name', 'contact.email': 'Email', 'contact.message': 'Message', 'contact.send': 'Send',
+          'search.placeholder': 'Search...',
+          'cat.all': 'Category', 'cat.cartera': 'Wallets', 'cat.organizador': 'Organizers', 'cat.monedero': 'Coin Purses', 'cat.bolso': 'Bags',
+          'col.all': 'Color', 'col.gold': 'Gold', 'col.blue': 'Blue', 'col.white': 'White',
+          'controls.priceMax': 'Max',
+          'footer.privacy': 'Privacy Policy', 'footer.terms': 'Terms', 'footer.rights': 'All rights reserved',
+          'pdp.add': 'Add to Cart', 'pdp.materials': 'Materials & Care', 'pdp.shipping': 'Shipping & Returns',
+          'pdp.materials.text': 'Premium vegan leather. Wipe clean with a soft, dry cloth.',
+          'pdp.shipping.text': 'Free shipping on orders over $100. Returns accepted within 30 days.'
+        },
+        fr: {
+          'nav.products': 'Boutique', 'nav.about': 'À propos', 'nav.contact': 'Contact',
+          'hero.title': 'Isru Studio', 'hero.subtitle': 'Des accessoires intemporels conçus pour le style de vie moderne.', 'hero.cta': 'Explorer la collection',
+          'products.title': 'Pièces Sélectionnées', 'about.title': 'À propos d\'Isru', 'about.text': 'Un design conscient pour la femme contemporaine. L\'élégance fonctionnelle dans les moindres détails.',
+          'contact.title': 'Contact', 'contact.name': 'Nom', 'contact.email': 'Email', 'contact.message': 'Message', 'contact.send': 'Envoyer',
+          'search.placeholder': 'Rechercher...',
+          'cat.all': 'Catégorie', 'cat.cartera': 'Portefeuilles', 'cat.organizador': 'Organisateurs', 'cat.monedero': 'Porte-monnaie', 'cat.bolso': 'Sacs',
+          'col.all': 'Couleur', 'col.gold': 'Doré', 'col.blue': 'Bleu', 'col.white': 'Blanc',
+          'controls.priceMax': 'Max',
+          'footer.privacy': 'Politique de confidentialité', 'footer.terms': 'Conditions', 'footer.rights': 'Tous droits réservés',
+          'pdp.add': 'Ajouter au panier', 'pdp.materials': 'Matériaux et Entretien', 'pdp.shipping': 'Livraison et Retours',
+          'pdp.materials.text': 'Cuir végétalien de qualité supérieure. Essuyer avec un chiffon doux et sec.',
+          'pdp.shipping.text': 'Livraison gratuite pour les commandes de plus de 100$.'
+        }
+      };
+
+      function applyGlobalTranslations() {
+        const locale = localStorage.getItem('isru_locale') || 'es';
+        const map = translations[locale] || translations['es'];
+        
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (map[key]) {
+                el.textContent = map[key];
+            }
+        });
+
+        // Trigger custom event for page-specific scripts
+        document.dispatchEvent(new CustomEvent('localeChanged', { detail: { locale, map } }));
+      }
+
+      // Initial load
+      document.addEventListener('DOMContentLoaded', applyGlobalTranslations);
+
+      // Listen for Header changes
+      const langSelect = document.getElementById('langSelect');
+      if (langSelect) {
+         langSelect.addEventListener('change', applyGlobalTranslations);
+      }
+    </script>
 	</body>
 </html>
+
+

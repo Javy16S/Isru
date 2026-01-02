@@ -1,0 +1,145 @@
+---
+---
+
+<div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+<aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-white z-[70] transform translate-x-full transition-transform duration-300 ease-out flex flex-col shadow-2xl">
+  <!-- Header -->
+  <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+    <h2 class="font-cinzel text-xl text-gray-900">Your Cart</h2>
+    <button id="close-cart" class="text-gray-400 hover:text-black transition-colors p-2">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </button>
+  </div>
+
+  <!-- Items -->
+  <div class="flex-1 overflow-y-auto p-6 space-y-6" id="cart-items-container">
+    <!-- Items will be injected here by JS -->
+    <div class="h-full flex flex-col items-center justify-center text-gray-400 space-y-4 empty-state">
+        <svg class="w-12 h-12 stroke-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+        <p class="font-light tracking-wide">Your cart is empty</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="p-6 bg-gray-50 border-t border-gray-100 space-y-4" id="cart-footer">
+    <div class="flex justify-between items-end">
+        <span class="text-sm text-gray-500 uppercase tracking-widest">Total</span>
+        <span class="text-2xl font-cinzel text-gray-900" id="cart-total">$0.00</span>
+    </div>
+    
+    <button id="checkout-btn" class="w-full bg-gray-900 text-white py-4 uppercase tracking-[0.2em] text-xs hover:bg-black transition-colors">
+        Checkout
+    </button>
+    
+    <p class="text-center text-[10px] text-gray-400">Shipping & taxes calculated at checkout</p>
+  </div>
+</aside>
+
+<script>
+  import { cartItems, cartTotal, removeCartItem, updateCartQuantity, isCartOpen, toggleCart } from '../stores/cart';
+
+  const drawer = document.getElementById('cart-drawer');
+  const backdrop = document.getElementById('cart-drawer-backdrop');
+  const itemsContainer = document.getElementById('cart-items-container');
+  const totalEl = document.getElementById('cart-total');
+  const closeBtn = document.getElementById('close-cart');
+  const footer = document.getElementById('cart-footer');
+
+  function renderCart(items) {
+    const entries = Object.values(items);
+    
+    if (entries.length === 0) {
+        if(itemsContainer) itemsContainer.innerHTML = `
+            <div class="h-full flex flex-col items-center justify-center text-gray-400 space-y-4 empty-state">
+                <svg class="w-12 h-12 stroke-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                <p class="font-light tracking-wide">Your cart is empty</p>
+            </div>
+        `;
+        if(footer) footer.classList.add('opacity-50', 'pointer-events-none');
+        return;
+    }
+
+    if(footer) footer.classList.remove('opacity-50', 'pointer-events-none');
+    
+    if(itemsContainer) itemsContainer.innerHTML = entries.map(item => `
+        <div class="flex gap-4 animate-fade-in">
+            <div class="w-20 h-26 bg-gray-50 flex-shrink-0 relative overflow-hidden">
+                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-contain p-0">
+            </div>
+            <div class="flex-1 flex flex-col justify-between py-1">
+                <div>
+                    <h3 class="font-cinzel text-sm text-gray-900">${item.name}</h3>
+                    <p class="text-xs text-gray-500 mt-1">$${item.price}</p>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center border border-gray-200">
+                        <button class="px-2 py-1 text-gray-500 hover:bg-gray-50 text-xs q-btn" data-id="${item.id}" data-action="minus">-</button>
+                        <span class="px-2 py-1 text-xs min-w-[1.5rem] text-center">${item.quantity}</span>
+                        <button class="px-2 py-1 text-gray-500 hover:bg-gray-50 text-xs q-btn" data-id="${item.id}" data-action="plus">+</button>
+                    </div>
+                    <button class="text-xs text-gray-400 hover:text-red-500 underline remove-btn" data-id="${item.id}">Remove</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    // Re-attach listeners
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const id = parseInt((e.target as HTMLElement).dataset.id || '0');
+            if(id) removeCartItem(id);
+        });
+    });
+
+    document.querySelectorAll('.q-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+             const target = e.target as HTMLElement;
+             const id = parseInt(target.dataset.id || '0');
+             const action = target.dataset.action;
+             const currentItem = entries.find(i => i.id === id);
+             if (currentItem) {
+                 if (action === 'plus') updateCartQuantity(id, currentItem.quantity + 1);
+                 if (action === 'minus') updateCartQuantity(id, currentItem.quantity - 1);
+             }
+        });
+    });
+  }
+
+  // Subscribe to changes
+  cartItems.subscribe(renderCart);
+  
+  cartTotal.subscribe(total => {
+      if(totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
+  });
+
+  isCartOpen.subscribe(isOpen => {
+      if (isOpen) {
+          drawer?.classList.remove('translate-x-full');
+          backdrop?.classList.remove('opacity-0', 'pointer-events-none');
+          document.body.style.overflow = 'hidden';
+      } else {
+          drawer?.classList.add('translate-x-full');
+          backdrop?.classList.add('opacity-0', 'pointer-events-none');
+          document.body.style.overflow = '';
+      }
+  });
+
+  closeBtn?.addEventListener('click', () => toggleCart(false));
+  backdrop?.addEventListener('click', () => toggleCart(false));
+  
+  import confetti from 'canvas-confetti';
+
+  // Checkout (mock with confetti)
+  document.getElementById('checkout-btn')?.addEventListener('click', () => {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+    setTimeout(() => {
+        alert('Redirecting to Checkout...');
+    }, 1000);
+  });
+
+</script>
