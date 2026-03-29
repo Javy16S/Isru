@@ -3,13 +3,14 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CartDrawer from '../components/CartDrawer.astro';
+import SmoothScroll from '../components/SmoothScroll.astro';
 
 interface Props {
 	title: string;
 	description?: string;
 }
 
-const { title, description = "Isru: accesorios elegantes y minimalistas para organizar tus esenciales." } = Astro.props;
+const { title, description = "IR: accesorios de mujer hechos a mano para necesidades que marcas comerciales no cumplen." } = Astro.props;
 ---
 
 <!doctype html>
@@ -23,7 +24,7 @@ const { title, description = "Isru: accesorios elegantes y minimalistas para org
 		<meta name="generator" content={Astro.generator} />
 		
 		<!-- Open Graph -->
-		<meta property="og:site_name" content="Isru" />
+		<meta property="og:site_name" content="IR" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
@@ -43,14 +44,15 @@ const { title, description = "Isru: accesorios elegantes y minimalistas para org
 		<slot />
 		<Footer />
         <CartDrawer />
+        <SmoothScroll />
     
     <script>
       // Global i18n Logic
       const translations = {
         es: {
           'nav.products': 'Tienda', 'nav.about': 'Nosotros', 'nav.contact': 'Contacto',
-          'hero.title': 'Isru Studio', 'hero.subtitle': 'Accesorios atemporales diseñados para el estilo de vida moderno.', 'hero.cta': 'Explorar Colección',
-          'products.title': 'Piezas Seleccionadas', 'about.title': 'Sobre Isru', 'about.text': 'Diseño consciente para la mujer contemporánea. Elegancia funcional en cada detalle.',
+          'hero.title': 'IR Studio', 'hero.subtitle': 'Accesorios atemporales diseñados para el estilo de vida moderno.', 'hero.cta': 'Explorar Colección',
+          'products.title': 'Piezas Seleccionadas', 'about.title': 'Sobre IR', 'about.text': 'IR crea accesorios para mujer hechos a mano para cubrir necesidades que las marcas comerciales no cumplen.',
           'contact.title': 'Contacto', 'contact.name': 'Nombre', 'contact.email': 'Email', 'contact.message': 'Mensaje', 'contact.send': 'Enviar',
           'search.placeholder': 'Buscar...',
           'cat.all': 'Categoría', 'cat.cartera': 'Carteras', 'cat.organizador': 'Organizadores', 'cat.monedero': 'Monederos', 'cat.bolso': 'Bolsos',
@@ -63,8 +65,8 @@ const { title, description = "Isru: accesorios elegantes y minimalistas para org
         },
         en: {
           'nav.products': 'Shop', 'nav.about': 'About', 'nav.contact': 'Contact',
-          'hero.title': 'Isru Studio', 'hero.subtitle': 'Timeless accessories designed for the modern lifestyle.', 'hero.cta': 'Explore Collection',
-          'products.title': 'Selected Pieces', 'about.title': 'About Isru', 'about.text': 'Conscious design for the contemporary woman. Functional elegance in every detail.',
+          'hero.title': 'IR Studio', 'hero.subtitle': 'Timeless accessories designed for the modern lifestyle.', 'hero.cta': 'Explore Collection',
+          'products.title': 'Selected Pieces', 'about.title': 'About IR', 'about.text': 'IR creates handmade accessories for women to fulfill needs that commercial brands overlook.',
           'contact.title': 'Contact', 'contact.name': 'Name', 'contact.email': 'Email', 'contact.message': 'Message', 'contact.send': 'Send',
           'search.placeholder': 'Search...',
           'cat.all': 'Category', 'cat.cartera': 'Wallets', 'cat.organizador': 'Organizers', 'cat.monedero': 'Coin Purses', 'cat.bolso': 'Bags',
@@ -77,8 +79,8 @@ const { title, description = "Isru: accesorios elegantes y minimalistas para org
         },
         fr: {
           'nav.products': 'Boutique', 'nav.about': 'À propos', 'nav.contact': 'Contact',
-          'hero.title': 'Isru Studio', 'hero.subtitle': 'Des accessoires intemporels conçus pour le style de vie moderne.', 'hero.cta': 'Explorer la collection',
-          'products.title': 'Pièces Sélectionnées', 'about.title': 'À propos d\'Isru', 'about.text': 'Un design conscient pour la femme contemporaine. L\'élégance fonctionnelle dans les moindres détails.',
+          'hero.title': 'IR Studio', 'hero.subtitle': 'Des accessoires intemporels conçus pour le style de vie moderne.', 'hero.cta': 'Explorer la collection',
+          'products.title': 'Pièces Sélectionnées', 'about.title': 'À propos d\'IR', 'about.text': 'IR crée des accessoires faits à la main pour femmes, répondant à des besoins que les marques commerciales ne satisfont pas.',
           'contact.title': 'Contact', 'contact.name': 'Nom', 'contact.email': 'Email', 'contact.message': 'Message', 'contact.send': 'Envoyer',
           'search.placeholder': 'Rechercher...',
           'cat.all': 'Catégorie', 'cat.cartera': 'Portefeuilles', 'cat.organizador': 'Organisateurs', 'cat.monedero': 'Porte-monnaie', 'cat.bolso': 'Sacs',

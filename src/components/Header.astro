@@ -7,9 +7,9 @@
     </a>
     
     <nav class="hidden md:flex gap-12 items-center" id="mainNav">
-      <a class="text-xs uppercase tracking-[0.15em] text-gray-600 hover:text-black transition-colors" data-i18n="nav.products" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#productos`}>Shop</a>
-      <a class="text-xs uppercase tracking-[0.15em] text-gray-600 hover:text-black transition-colors" data-i18n="nav.about" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#about`}>About</a>
-      <a class="text-xs uppercase tracking-[0.15em] text-gray-600 hover:text-black transition-colors" data-i18n="nav.contact" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#contacto`}>Contact</a>
+      <a class="text-xs uppercase tracking-[0.15em] text-gray-600 hover-link hover:text-black transition-colors py-1" data-i18n="nav.products" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#productos`}>Shop</a>
+      <a class="text-xs uppercase tracking-[0.15em] text-gray-600 hover-link hover:text-black transition-colors py-1" data-i18n="nav.about" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#about`}>About</a>
+      <a class="text-xs uppercase tracking-[0.15em] text-gray-600 hover-link hover:text-black transition-colors py-1" data-i18n="nav.contact" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#contacto`}>Contact</a>
     </nav>
 
     <div class="flex items-center gap-6">
@@ -52,7 +52,7 @@
            });
         </script>
         
-        <button id="lang-trigger" class="flex items-center gap-1 text-xs uppercase tracking-widest text-gray-500 hover:text-black transition cursor-pointer">
+        <button id="lang-trigger" class="flex items-center gap-1 text-xs uppercase tracking-widest text-gray-500 hover:text-black transition cursor-pointer hover-icon px-2 py-1">
            <span id="lang-label">ES</span>
            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7"></path></svg>
         </button>
@@ -70,9 +70,9 @@
         </select>
       </div>
 
-      <button id="cart-trigger" class="text-gray-900 hover:text-gray-600 transition-colors relative" aria-label="Cart">
+      <button id="cart-trigger" class="text-gray-900 transition-colors relative hover-icon px-2 py-1" aria-label="Cart">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-        <span id="cart-count" class="absolute -top-1 -right-2 bg-gray-900 text-white text-[9px] w-4 h-4 flex items-center justify-center rounded-full opacity-0 transition-opacity">0</span>
+        <span id="cart-count" class="absolute -top-1 -right-1 bg-[#5b2333] text-white text-[9px] w-4 h-4 flex items-center justify-center rounded-full opacity-0 transition-opacity">0</span>
       </button>
 
       <button class="md:hidden text-2xl text-gray-900 focus:outline-none font-light" id="navToggle" aria-label="Abrir menú">
@@ -84,9 +84,9 @@
   
   <!-- Mobile Menu -->
   <div id="mobileMenu" class="hidden md:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 py-8 px-8 flex-col gap-6 animate-fade-in">
-    <a class="block text-sm uppercase tracking-widest text-gray-900" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#productos`}>Shop</a>
-    <a class="block text-sm uppercase tracking-widest text-gray-900" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#about`}>About</a>
-    <a class="block text-sm uppercase tracking-widest text-gray-900" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#contacto`}>Contact</a>
+    <a class="block text-sm uppercase tracking-widest text-gray-900 hover-link w-max" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#productos`}>Shop</a>
+    <a class="block text-sm uppercase tracking-widest text-gray-900 hover-link w-max" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#about`}>About</a>
+    <a class="block text-sm uppercase tracking-widest text-gray-900 hover-link w-max" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#contacto`}>Contact</a>
   </div>
 </header>
 

@@ -1,0 +1,202 @@
+---
+---
+
+<section id="scroll-sequence-section" class="relative h-[400vh] bg-white text-gray-900" data-base-url={import.meta.env.BASE_URL}>
+  <div class="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-white">
+    <!-- El canvas para las imágenes con transparencia procesada -->
+    <canvas id="sequence-canvas" class="absolute inset-0 w-full h-full z-10 pointer-events-none transition-opacity duration-300"></canvas>
+    
+    <!-- Capa de textos izquierda -->
+    <div id="txt-1" class="absolute left-8 md:left-24 top-1/2 -translate-y-1/2 z-20 max-w-sm transition-all duration-700 ease-out opacity-0 translate-y-8 pointer-events-none">
+      <h2 class="font-cinzel text-4xl md:text-6xl font-light mb-4">Diseño<br/>Atemporal</h2>
+      <p class="text-gray-600 font-light text-lg tracking-wide">Cada curva y costura está diseñada meticulosamente para resistir el paso del tiempo, fusionando funcionalidad y estética premium.</p>
+    </div>
+
+    <!-- Capa de textos derecha -->
+    <div id="txt-2" class="absolute right-8 md:right-24 top-1/2 -translate-y-1/2 z-20 max-w-sm transition-all duration-700 ease-out opacity-0 translate-y-8 pointer-events-none text-right">
+      <h2 class="font-cinzel text-4xl md:text-6xl font-light mb-4">Precisión<br/>Absoluta</h2>
+      <p class="text-gray-600 font-light text-lg tracking-wide">Desliza la mirada a través de los detalles. Seleccionamos únicamente los mejores materiales para una durabilidad excepcional.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const section = document.getElementById('scroll-sequence-section');
+    if (!section) return;
+
+    const baseUrl = section.getAttribute('data-base-url') || '';
+    const canvas = document.getElementById('sequence-canvas');
+    if (!canvas) return;
+    
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    
+    // Omitimos aguja(1) e iniciamos desde la 2 hasta la 104
+    const startFrame = 2;
+    const endFrame = 104;
+    const frameCount = (endFrame - startFrame) + 1; // 103 frames
+    const images = new Array(frameCount).fill(null);
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      renderImage(Math.max(0, currentIndex), currentProgress);
+    }
+
+    let currentIndex = 0;
+    let currentProgress = 0;
+    
+    // Función de Chroma Key: Quita el fondo negro de la imagen cargada
+    function removeBlackBackground(img, callback) {
+      if(!img || img.naturalWidth === 0) { callback(false); return; }
+      
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = img.naturalWidth;
+      tempCanvas.height = img.naturalHeight;
+      const ctx = tempCanvas.getContext('2d', { willReadFrequently: true });
+      ctx.drawImage(img, 0, 0);
+      
+      const imageData = ctx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+      const data = imageData.data;
+      
+      // Tolerancia al color negro para convertirlo en alfa = 0
+      const tolerance = 25; 
+      
+      for (let i = 0; i < data.length; i += 4) {
+        if (data[i] < tolerance && data[i + 1] < tolerance && data[i + 2] < tolerance) {
+          data[i + 3] = 0; // Set Alpha to 0
+        }
+      }
+      
+      ctx.putImageData(imageData, 0, 0);
+      callback(tempCanvas);
+    }
+
+    // Lógica para cargar e inyectar transparencia en memoria
+    for (let i = 0; i < frameCount; i++) {
+      const img = new Image();
+      const currentImgNum = startFrame + i; // 2, 3, 4... 104
+      img.src = `${baseUrl}/images/3d-sequence/aguja (${currentImgNum}).jpg`;
+      img.onload = () => {
+        removeBlackBackground(img, (processedCanvas) => {
+           if(processedCanvas) {
+              images[i] = processedCanvas;
+              if (i === 0) renderImage(0, 0); // Dibuja frame inicial
+           }
+        });
+      };
+    }
+
+    // Interpolación para posicionar/escalar dinámicamente
+    function lerp(start, end, amt) {
+      return (1 - amt) * start + amt * end;
+    }
+
+    function renderImage(index, progress) {
+      const sourceCanvas = images[index];
+      if (!sourceCanvas) return; // Si aún no se ha cargado/procesado el chroma
+      
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      
+      const hRatio = canvas.width / sourceCanvas.width;
+      const vRatio = canvas.height / sourceCanvas.height;
+      let ratio = Math.min(hRatio, vRatio); // Escala "contain"
+      
+      // -- DISEÑO ESPECTACULAR: TRANSFORMACIONES POR PROGRESO --
+      let scaleMult = 1;
+      let xOffset = 0; // offset en % del ancho
+
+      // FASE 1: Entra por derecha, grande (0 a 0.25)
+      if (progress < 0.25) {
+         const p = progress / 0.25;
+         scaleMult = lerp(1.4, 1.2, p);
+         xOffset = lerp(0.3, 0.15, p); // A la derecha
+         canvas.style.opacity = "1";
+      } 
+      // FASE 2: Va hacia la izquierda (0.25 a 0.6)
+      else if (progress >= 0.25 && progress < 0.6) {
+         const p = (progress - 0.25) / 0.35;
+         scaleMult = lerp(1.2, 1.1, p);
+         xOffset = lerp(0.15, -0.25, p); // Se desliza a la izquierda
+         canvas.style.opacity = "1";
+      } 
+      // FASE 3: Vuelve a escalar y centrarse (0.6 a 1.0)
+      else {
+         const p = (progress - 0.6) / 0.4;
+         scaleMult = Math.min(1.5, lerp(1.1, 1.3, p));
+         xOffset = lerp(-0.25, 0, p); 
+         // Oculta el final difuminado
+         let fade = lerp(1, -0.5, p); 
+         if (fade < 0) fade = 0;
+         canvas.style.opacity = fade.toString();
+      }
+
+      const finalRatio = ratio * scaleMult;
+      const drawWidth = sourceCanvas.width * finalRatio;
+      const drawHeight = sourceCanvas.height * finalRatio;
+      
+      const centerX = (canvas.width / 2) + (canvas.width * xOffset);
+      const drawX = centerX - (drawWidth / 2);
+      const drawY = (canvas.height - drawHeight) / 2;
+      
+      context.drawImage(sourceCanvas, 0, 0, sourceCanvas.width, sourceCanvas.height,
+                        drawX, drawY, drawWidth, drawHeight);
+    }
+
+    // Funciones para animar los textos
+    function updateTexts(progress) {
+      const t1 = document.getElementById('txt-1');
+      const t2 = document.getElementById('txt-2');
+      
+      // Texto 1 (Aparece mientras la aguja está a la derecha: 0.05 a 0.35)
+      if (progress > 0.05 && progress < 0.35) {
+        t1.style.opacity = '1';
+        t1.style.transform = 'translateY(0)';
+      } else {
+        t1.style.opacity = '0';
+        t1.style.transform = 'translateY(32px)';
+      }
+
+      // Texto 2 (Aparece cuando la aguja se va a la izquierda: 0.4 a 0.75)
+      if (progress > 0.4 && progress < 0.75) {
+        t2.style.opacity = '1';
+        t2.style.transform = 'translateY(0)';
+      } else {
+        t2.style.opacity = '0';
+        t2.style.transform = 'translateY(32px)';
+      }
+    }
+
+    // Event Loop ligado al Scroll
+    window.addEventListener('scroll', () => {
+      const rect = section.getBoundingClientRect();
+      const maxScroll = rect.height - window.innerHeight;
+      const scrollPosition = -rect.top;
+
+      let progress = scrollPosition / maxScroll;
+      if (progress < 0) progress = 0;
+      if (progress > 1) progress = 1;
+      
+      currentProgress = progress;
+      updateTexts(progress);
+
+      const frameIndex = Math.min(frameCount - 1, Math.floor(progress * frameCount));
+      
+      if (frameIndex !== currentIndex || progress > 0) {
+        currentIndex = frameIndex;
+        requestAnimationFrame(() => {
+           renderImage(frameIndex, progress);
+        });
+      }
+    });
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+  });
+</script>
+
+<style>
+  #sequence-canvas {
+    mix-blend-mode: multiply; /* Ayuda a que los restos de negro en los bordes se sumen al blanco del fondo de la web de forma suave. */
+  }
+</style>

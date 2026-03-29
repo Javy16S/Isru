@@ -32,4 +32,34 @@
       transform: translateY(0);
     }
   }
+
+  /* Premium High-Performance Hover States */
+  .hover-link {
+    position: relative;
+    display: inline-block;
+  }
+  .hover-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: currentColor;
+    transform-origin: bottom right;
+    transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
+  }
+  .hover-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+  
+  .hover-icon {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+  }
+  .hover-icon:hover {
+    transform: scale(1.1);
+    color: #5b2333;
+  }
 }

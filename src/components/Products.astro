@@ -67,7 +67,7 @@ import { products } from '../data/products';
 
       <!-- Category Filter -->
       <div id="categoryFilter-container" class="relative group">
-         <button class="dropdown-trigger flex items-center gap-2 py-2 text-sm text-gray-600 hover:text-black transition font-light uppercase tracking-wider">
+         <button class="dropdown-trigger flex items-center gap-2 py-2 text-sm text-gray-600 hover:text-[#5b2333] transition font-light uppercase tracking-wider hover-icon px-2">
             <span class="selected-text" data-i18n="cat.all">Category</span>
             <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7"></path></svg>
          </button>
@@ -88,7 +88,7 @@ import { products } from '../data/products';
 
       <!-- Color Filter -->
       <div id="colorFilter-container" class="relative group">
-         <button class="dropdown-trigger flex items-center gap-2 py-2 text-sm text-gray-600 hover:text-black transition font-light uppercase tracking-wider">
+         <button class="dropdown-trigger flex items-center gap-2 py-2 text-sm text-gray-600 hover:text-[#5b2333] transition font-light uppercase tracking-wider hover-icon px-2">
             <span class="selected-text" data-i18n="col.all">Color</span>
             <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7"></path></svg>
          </button>
@@ -123,7 +123,7 @@ import { products } from '../data/products';
       const backPath = `${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL}/images/${p.back}`;
       
       return (
-          <article class={`group relative animate-fade-in`} style={`animation-delay: ${index * 100}ms`}>
+          <article class={`product-card group relative opacity-0 translate-y-12 transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)]`}>
             <a class="block relative" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL}/product/${p.id}`} aria-label={displayName}>
               <div class="relative aspect-[3/4] w-full bg-[#f8f8f8] overflow-hidden mb-4 rounded-sm">
                 <div class="hover-swap relative w-full h-full">
@@ -137,8 +137,8 @@ import { products } from '../data/products';
                 {p.id === 1 && <span class="absolute top-4 left-4 text-[10px] uppercase tracking-[0.2em] text-gray-400">New Arrival</span>}
               </div>
               
-              <div class="text-left space-y-1">
-                <h3 class="font-cinzel text-base text-gray-900 tracking-wide group-hover:underline decoration-gray-300 underline-offset-4 decoration-1 transition-all">{displayName}</h3>
+              <div class="text-left space-y-1 mt-2">
+                <h3 class="font-cinzel text-base text-gray-900 tracking-wide hover-link transition-all">{displayName}</h3>
                 <p class="font-light text-sm text-gray-500 tracking-wide">${p.price}</p>
               </div>
             </a>
@@ -148,13 +148,23 @@ import { products } from '../data/products';
   </div>
 </section>
 
-<style>
-  .animate-fade-in {
-    opacity: 0;
-    animation: fadeIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Revelar de forma suave
+          setTimeout(() => {
+             entry.target.classList.remove('opacity-0', 'translate-y-12');
+             entry.target.classList.add('opacity-100', 'translate-y-0');
+          }, 50); // Pequeño stagger si aparecen a la vez
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -100px 0px" });
+
+    document.querySelectorAll('.product-card').forEach(card => {
+       observer.observe(card);
+    });
+  });
+</script>

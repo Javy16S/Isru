@@ -1,52 +1,181 @@
 ---
 ---
-<section class="relative min-h-[90vh] flex items-center bg-white overflow-hidden">
-  <div class="w-full max-w-[1920px] mx-auto px-4 md:px-12 grid lg:grid-cols-2 gap-16 items-center">
+<section id="gta-hero-wrapper" class="relative w-full h-[450vh] bg-black">
+  <div class="sticky top-0 w-full h-screen overflow-hidden flex flex-col items-center justify-center">
     
-    <!-- Text Content (Left) -->
-    <div class="space-y-8 pl-4 lg:pl-12 order-2 lg:order-1">
-      <div class="space-y-4">
-        <span class="block text-gray-500 text-sm tracking-[0.3em] uppercase animate-fade-in" style="animation-delay: 0.1s;">New Collection 2026</span>
-        <h1 class="font-cinzel text-5xl md:text-7xl text-gray-900 leading-[1.1] font-light animate-fade-in" style="animation-delay: 0.2s;" data-i18n="hero.title">
-          Isru Studio
-        </h1>
-        <p class="text-lg md:text-xl text-gray-600 max-w-md leading-relaxed font-light animate-fade-in" style="animation-delay: 0.3s;" data-i18n="hero.subtitle">
-          Timeless accessories designed for the modern lifestyle.
-        </p>
-      </div>
+    <!-- LAYER A: Background Cinematic Image (Fondo Verdadero) -->
+    <div class="absolute inset-0 w-full h-full z-0 flex flex-col justify-center">
+       <picture class="absolute inset-0 block w-full h-full overflow-hidden bg-black">
+         <source srcset={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL}/images/imagen_muestra.avif`} type="image/avif">
+         <img src={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL}/images/imagen_muestra.avif`} 
+              alt="Concepto Editorial IR" 
+              class="w-full h-full object-cover object-center opacity-70" />
+       </picture>
+       <!-- Un overlay suave para que las letras blancas sobre fondo oscuro se lean -->
+       <div class="absolute inset-0 bg-black/40"></div>
+       
+       <!-- Mensajes inmersivos que descubrimos en Fase 5 -->
+       <div class="absolute inset-0 flex flex-col justify-end items-center pb-24 md:pb-32 px-4 text-center z-10">
+          <div id="final-cinematic-texts" class="flex flex-col items-center opacity-0 translate-y-8 will-change-transform pointer-events-none">
+             <span class="text-[10px] md:text-sm tracking-[0.5em] uppercase text-white/70 mb-4 font-light mix-blend-screen" data-i18n="hero.sub1" style="transition: opacity 1s ease;">New Collection // 2026</span>
+             <p class="text-2xl md:text-4xl text-white font-cinzel max-w-2xl font-light" data-i18n="hero.subtitle">
+               Accesorios atemporales diseñados para el estilo de vida moderno.
+             </p>
+             <div class="mt-8">
+                <a class="group inline-flex items-center gap-4 text-xs uppercase tracking-[0.3em] text-white transition-colors duration-300 pointer-events-auto" 
+                   href="#productos" data-i18n="hero.cta">
+                  <span class="border-b border-transparent pb-1 text-white/50 group-hover:text-white group-hover:border-white transition-colors">Explore</span>
+                  <svg class="w-5 h-5 transform transition-transform duration-500 group-hover:translate-x-2 text-white/50 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+             </div>
+          </div>
+       </div>
+    </div>
+    
+    <!-- LAYER B: The Cutout Mask (Fase 2-4) -->
+    <div class="absolute inset-0 w-full h-full bg-black flex flex-col items-center justify-center mix-blend-multiply pointer-events-none z-10 opacity-0 will-change-transform" id="mask-layer">
+      <!-- origin-center para hacer zoom justo al centro de la reja texturas de fondo -->
+      <h1 id="gta-mask-text" class="font-cinzel text-white text-[45vw] md:text-[30vw] font-bold leading-[0.7] tracking-tighter m-0 p-0 flex items-center justify-center w-full h-full select-none will-change-transform" style="transform-origin: center;">
+        IR
+      </h1>
+    </div>
 
-      <div class="pt-4 animate-fade-in" style="animation-delay: 0.4s;">
-        <a class="group inline-flex items-center gap-3 text-sm uppercase tracking-[0.2em] text-gray-900 border-b border-gray-900 pb-1 hover:text-gray-600 hover:border-gray-600 transition-all duration-300" 
-           id="btnViewCollection" 
-           href="#productos" 
-           data-i18n="hero.cta">
-          Explore Collection
-          <svg class="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-        </a>
+    <!-- LAYER C: El Editorial Classico de Inicio (Fase 1) -->
+    <div class="absolute inset-0 z-20 w-full h-full flex flex-col justify-center px-4 md:px-12 origin-bottom bg-[#fdfdfd] will-change-transform" id="editorial-hero">
+      <div class="flex flex-col lg:flex-row items-end justify-between gap-16 lg:gap-8 w-full max-w-[1920px] mx-auto mt-4 lg:mt-20 h-full lg:h-auto py-12">
+        
+        <!-- Textazo Gigante Izquierda -->
+        <div class="space-y-6 w-full lg:w-[65%] order-2 lg:order-1 flex-1 lg:flex-none">
+          <span class="block text-gray-500 text-[10px] md:text-sm tracking-[0.4em] uppercase opacity-0" style="animation: fade-in-up 2s ease-out 0.1s forwards;">New Collection // 2026</span>
+          <h1 class="font-cinzel text-7xl sm:text-[8rem] md:text-[11rem] lg:text-[12rem] xl:text-[14rem] leading-[0.85] tracking-tight text-gray-900 overflow-hidden font-light -ml-2 select-none">
+            <span class="block translate-y-[110%]" style="animation: reveal-up 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;">IR</span>
+            <span class="block translate-y-[110%]" style="animation: reveal-up 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;">Studio</span>
+          </h1>
+        </div>
+
+        <!-- Info Derecha -->
+        <div class="w-full lg:w-[35%] flex flex-col items-start lg:items-end justify-between lg:justify-end space-y-10 order-1 lg:order-2 opacity-0" style="animation: fade-in-up 1.5s ease-out 1.2s forwards;">
+          <p class="text-base md:text-xl text-gray-500 max-w-sm leading-relaxed font-light text-left lg:text-right mix-blend-multiply" data-i18n="hero.subtitle">
+            Accesorios atemporales diseñados para el estilo de vida moderno.
+          </p>
+          
+          <!-- Editorial Box -->
+          <div class="relative w-[180px] lg:w-full lg:max-w-[280px] aspect-[4/5] overflow-hidden group border border-gray-200 p-2 bg-white shadow-xl/10 hidden md:block">
+            <picture class="relative block w-full h-full overflow-hidden bg-gray-50">
+              <source srcset={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL}/images/imagen_muestra.avif`} type="image/avif">
+              <img src={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL}/images/imagen_muestra.avif`} 
+                   alt="Isru Editorial Previa" 
+                   class="w-full h-full object-cover object-center transform scale-100 transition-transform duration-[3s] ease-out group-hover:scale-[1.03]" />
+            </picture>
+          </div>
+          
+          <div class="flex flex-col items-center lg:items-end w-full animate-bounce mt-4 lg:mt-12 opacity-40">
+             <span class="text-[9px] uppercase tracking-[0.4em] text-gray-500">Scroll Journey</span>
+             <div class="w-[1px] h-8 bg-gray-400 mt-2" style="animation: grow-down 1.5s ease-out infinite alternate;"></div>
+          </div>
+        </div>
+
       </div>
-    </div>
-    
-    <!-- Image (Right) -->
-    <div class="relative h-[60vh] lg:h-[85vh] w-full order-1 lg:order-2 bg-gray-50 overflow-hidden rounded-sm">
-      <picture class="absolute inset-0 w-full h-full">
-        <source srcset={`${import.meta.env.BASE_URL}/images/imagen_muestra.avif`} type="image/avif">
-        <img src={`${import.meta.env.BASE_URL}/images/imagen_muestra.avif`} 
-             alt="Isru Editorial" 
-             class="w-full h-full object-cover object-center transform scale-100 transition-transform duration-[2s] hover:scale-105"
-             loading="eager" 
-             fetchpriority="high" />
-      </picture>
-    </div>
+    </div> <!-- End Layer C -->
+
   </div>
 </section>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+      const wrapper = document.getElementById('gta-hero-wrapper');
+      
+      const layerC = document.getElementById('editorial-hero');
+      const layerB = document.getElementById('mask-layer');
+      const textMask = document.getElementById('gta-mask-text');
+      const layerA = document.getElementById('final-cinematic-texts');
+
+      if (!wrapper || !layerC || !layerB || !textMask || !layerA) return;
+
+      const onScroll = () => {
+          const rect = wrapper.getBoundingClientRect();
+          const maxScroll = rect.height - window.innerHeight;
+          let p = -rect.top / maxScroll;
+          p = Math.max(0, Math.min(1, p));
+
+          // 1. Fase 1 y 2: Desvanecer la página Editorial Blanca de inicio (0.0 -> 0.15)
+          if (p <= 0.15) {
+              const localP = p / 0.15; // De 0 a 1
+              layerC.style.opacity = Math.max(0, 1 - Math.pow(localP, 1.5)).toString();
+              // Scale up un poco para sensacion de hundirse en la pantalla
+              layerC.style.transform = `scale(${1 + (localP * 0.1)}) translateY(${-localP * 5}vh)`;
+              layerC.style.pointerEvents = localP > 0.8 ? 'none' : 'auto';
+          } else {
+              layerC.style.opacity = '0';
+              layerC.style.pointerEvents = 'none';
+          }
+
+          // 2. Fase 2: Aparece la Máscara Negra en el Vacio (0.12 -> 0.25)
+          if (p > 0.12 && p <= 0.25) {
+              const localP = (p - 0.12) / 0.13; // 0 a 1
+              layerB.style.opacity = localP.toString();
+              textMask.style.transform = `scale(1)`;
+          } else if (p <= 0.12) {
+              layerB.style.opacity = '0';
+              textMask.style.transform = `scale(1)`;
+          }
+
+          // 3. Fase 3: Zoom Monumental (0.25 -> 0.70)
+          if (p > 0.25 && p <= 0.85) {
+              layerB.style.opacity = '1';
+              
+              const localP = (p - 0.25) / 0.60;
+              const safeP = Math.min(1, localP);
+              // Escalar a x45 es masivo, te tragan las letras
+              const scale = 1 + Math.pow(safeP, 3) * 45;
+              textMask.style.transform = `scale(${scale})`;
+          }
+
+          // 4. Fase 4 y 5: Fundirse del negro y aparecer textos 
+          // Mantener escala masiva si hemos superado 0.85 para no encoger
+          if (p > 0.85) {
+              textMask.style.transform = `scale(46)`;
+          }
+
+          // Desvanecer el viñeteado negro de la máscara (0.7 -> 0.85)
+          if (p > 0.70) {
+              const fadeOut = 1 - ((p - 0.70) / 0.15);
+              layerB.style.opacity = Math.max(0, fadeOut).toString();
+          }
+
+          // Aparecer Boton de Cierre Explore The Collection (0.80 -> 1.0)
+          if (p > 0.80) {
+              const localP = Math.min(1, (p - 0.80) / 0.20);
+              layerA.style.opacity = localP.toString();
+              // Entra flotando desde abajo
+              layerA.style.transform = `translateY(${(1 - localP) * 3}rem)`;
+              layerA.style.pointerEvents = localP > 0.9 ? 'auto' : 'none';
+          } else {
+              layerA.style.opacity = '0';
+              layerA.style.pointerEvents = 'none';
+              layerA.style.transform = `translateY(3rem)`;
+          }
+      };
+
+      // Engine Update Callback
+      window.addEventListener('scroll', onScroll, { passive: true });
+      requestAnimationFrame(onScroll);
+  });
+</script>
+
 <style>
-  .animate-fade-in {
-    opacity: 0;
-    animation: fadeIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  #gta-hero-wrapper { overscroll-behavior: none; }
+  
+  @keyframes reveal-up {
+    0% { transform: translateY(110%); }
+    100% { transform: translateY(0); }
   }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes fade-in-up {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes grow-down {
+    0% { transform: scaleY(0); transform-origin: top; }
+    100% { transform: scaleY(1); transform-origin: top; }
   }
 </style>
