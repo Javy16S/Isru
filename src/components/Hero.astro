@@ -142,13 +142,14 @@
               layerB.style.opacity = Math.max(0, fadeOut).toString();
           }
 
-          // Aparecer Boton de Cierre Explore The Collection (0.80 -> 1.0)
-          if (p > 0.80) {
-              const localP = Math.min(1, (p - 0.80) / 0.20);
+          // Aparecer Boton de Cierre Explore The Collection (0.75 -> 1.0)
+          if (p > 0.75) {
+              const localP = Math.min(1, (p - 0.75) / 0.25);
               layerA.style.opacity = localP.toString();
               // Entra flotando desde abajo
               layerA.style.transform = `translateY(${(1 - localP) * 3}rem)`;
-              layerA.style.pointerEvents = localP > 0.9 ? 'auto' : 'none';
+              // Habilitar clicks mucho antes para mejor UX
+              layerA.style.pointerEvents = localP > 0.1 ? 'auto' : 'none';
           } else {
               layerA.style.opacity = '0';
               layerA.style.pointerEvents = 'none';
@@ -160,7 +161,6 @@
       window.addEventListener('scroll', onScroll, { passive: true });
       requestAnimationFrame(onScroll);
   });
-</script>
 </script>
 
 <style>

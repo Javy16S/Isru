@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+---
+
+<Layout title="Política de Cookies | Isru Studio">
+  <main class="w-full max-w-4xl mx-auto px-4 md:px-12 pt-32 pb-20 animate-fade-in">
+    <nav class="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-12">
+        <a href={`${BASE}/`} class="hover:text-black transition-colors" data-i18n="nav.products">Home</a>
+        <span>/</span>
+        <span class="text-gray-900">Cookies</span>
+    </nav>
+
+    <h1 class="font-cinzel text-4xl text-gray-900 mb-12">Política de Cookies</h1>
+    
+    <div class="prose prose-gray max-w-none text-gray-600 font-light space-y-10 leading-relaxed">
+      <section class="space-y-4">
+        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-sm border-b border-gray-100 pb-2">1. ¿Qué son las cookies?</h2>
+        <p>
+          Las cookies son pequeños archivos de texto que el sitio web puede instalar en su equipo o dispositivo. Se utilizan habitualmente para que los sitios web funcionen, o para que lo hagan de manera más eficiente, así como para proporcionar información a los propietarios del sitio.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-sm border-b border-gray-100 pb-2">2. Tipos de cookies utilizadas</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="py-3 px-1 font-medium text-gray-900">Categoría</th>
+                <th class="py-3 px-1 font-medium text-gray-900">Finalidad</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+              <tr>
+                <td class="py-3 px-1"><strong>Técnicas</strong></td>
+                <td class="py-3 px-1">Necesarias para la navegación y el funcionamiento de la web (ej. el carrito de compra).</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-1"><strong>Preferencia</strong></td>
+                <td class="py-3 px-1">Permiten recordar información como el idioma seleccionado del usuario.</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-1"><strong>Analíticas</strong></td>
+                <td class="py-3 px-1">Permiten contabilizar el número de usuarios y realizar la medición y análisis estadístico.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-sm border-b border-gray-100 pb-2">3. Cómo gestionar las cookies</h2>
+        <p>
+          El usuario puede permitir, bloquear o eliminar las cookies instaladas en su equipo mediante la configuración de las opciones del navegador instalado en su ordenador o dispositivo.
+        </p>
+        <p>
+          Si no se permite la instalación de cookies en su navegador es posible que no pueda acceder a algunas de las secciones de nuestra web o que algunas utilidades (como el proceso de compra) dejen de funcionar correctamente.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-sm border-b border-gray-100 pb-2">4. Revocación del consentimiento</h2>
+        <p>
+          Usted puede retirar su consentimiento en cualquier momento eliminando las cookies instaladas a través de la configuración de su navegador o utilizando el banner de configuración presente en esta web.
+        </p>
+      </section>
+
+      <p class="text-[10px] pt-12 text-gray-400 uppercase tracking-widest">
+        Última actualización: Marzo 2026.
+      </p>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

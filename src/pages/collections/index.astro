@@ -1,0 +1,123 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { products } from '../../data/products';
+
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+
+// Localized Categories for filtering
+const categories = [
+    { id: 'all', es: 'Todos', en: 'All', fr: 'Tous' },
+    { id: 'bolso', es: 'Bolsos', en: 'Bags', fr: 'Sacs' },
+    { id: 'cartera', es: 'Carteras', en: 'Wallets', fr: 'Portefeuilles' },
+    { id: 'organizador', es: 'Organizadores', en: 'Organizers', fr: 'Organisateurs' }
+];
+---
+
+<Layout title="Tienda | Isru Studio" description="Explora nuestra colección completa de accesorios de piel vegana artesanal.">
+  <main class="w-full pt-32 pb-20">
+    <!-- Category Header -->
+    <section class="max-w-7xl mx-auto px-4 md:px-12 mb-16 text-center">
+        <h1 class="font-cinzel text-5xl text-gray-900 mb-6 tracking-tight">Colección Completa</h1>
+        <p class="max-w-xl mx-auto text-gray-500 font-light text-sm uppercase tracking-widest leading-relaxed">
+            Explora la serie completa de Isru Studio. Diseño atemporal hecho a mano con pasión en España.
+        </p>
+    </section>
+
+    <!-- Visual Sub-Nav (Icons Style) -->
+    <section class="max-w-7xl mx-auto px-4 md:px-12 mb-20 overflow-x-auto pb-4 scrollbar-hide">
+        <div class="flex justify-center gap-12 md:gap-24 min-w-max md:min-w-0">
+            {categories.map(cat => (
+                <button class="group flex flex-col items-center gap-4 filter-btn" data-category={cat.id}>
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full border border-gray-100 bg-gray-50 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:scale-105 group-hover:border-gray-900 overflow-hidden relative">
+                         {/* Placeholder for category icon/image - using simple text for now */}
+                         <span class="text-[10px] font-cinzel text-gray-400 group-hover:text-gray-900">{cat.id === 'all' ? 'Σ' : cat.id.charAt(0).toUpperCase()}</span>
+                    </div>
+                    <span class="text-[9px] uppercase tracking-[0.2em] text-gray-400 group-hover:text-gray-900 transition-colors font-bold">{cat.es}</span>
+                </button>
+            ))}
+        </div>
+    </section>
+
+    <!-- Sticky Filters Top Bar -->
+    <div class="sticky top-24 z-30 bg-white/90 backdrop-blur-md border-y border-gray-100 py-4 mb-12">
+        <div class="max-w-7xl mx-auto px-4 md:px-12 flex justify-between items-center text-[10px] uppercase tracking-widest text-gray-500">
+            <div class="flex gap-8">
+                 <button class="hover:text-black transition-colors flex items-center gap-2">Filtrar <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+                 <span id="product-count" class="font-bold text-gray-900">{products.length} Productos</span>
+            </div>
+            <div class="flex gap-4">
+                 <span class="hidden md:inline">Ordenar:</span>
+                 <select class="bg-transparent border-none focus:outline-none text-gray-900 font-bold cursor-pointer">
+                     <option>Novedades</option>
+                     <option>Precio: Mayor a Menor</option>
+                     <option>Precio: Menor a Mayor</option>
+                 </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Grid -->
+    <section class="max-w-7xl mx-auto px-4 md:px-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16" id="shop-grid">
+            {products.map(product => (
+                <div class="product-card group opacity-0 translate-y-10 transition-all duration-700 ease-out" data-category={product.category}>
+                    <a href={`${BASE}/product/${product.id}`} class="block space-y-6">
+                        <div class="aspect-[4/5] bg-gray-50 overflow-hidden relative rounded-sm">
+                            <img 
+                                src={`${BASE}/images/${product.front}`} 
+                                alt={product.name.es} 
+                                class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                            />
+                            <div class="absolute top-4 left-4 bg-white/90 px-3 py-1 text-[8px] uppercase tracking-widest font-bold text-gray-900">
+                                {product.category}
+                            </div>
+                        </div>
+                        <div class="space-y-1 text-center">
+                            <h3 class="font-cinzel text-lg text-gray-900 group-hover:text-gray-500 transition-colors uppercase tracking-tight">{product.name.es}</h3>
+                            <p class="text-sm text-gray-400 font-light tracking-widest">${product.price}</p>
+                        </div>
+                    </a>
+                </div>
+            ))}
+        </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+    function initShop() {
+        const gridItems = document.querySelectorAll('.product-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        
+        // Staggered Entrance Animation
+        gridItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.classList.remove('opacity-0', 'translate-y-10');
+            }, 100 * index);
+        });
+
+        // Simple filtering logic
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const category = (btn as HTMLElement).dataset.category;
+                
+                gridItems.forEach(item => {
+                    const itemCat = (item as HTMLElement).dataset.category;
+                    if (category === 'all' || itemCat === category) {
+                        (item as HTMLElement).style.display = 'block';
+                    } else {
+                        (item as HTMLElement).style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initShop);
+    document.addEventListener('astro:after-swap', initShop);
+</script>
+
+<style>
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+</style>

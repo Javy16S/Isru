@@ -15,35 +15,66 @@ const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
 
     <h1 class="font-cinzel text-4xl text-gray-900 mb-8" data-i18n="pdp.shipping">Envíos y Devoluciones</h1>
     
-    <div class="prose prose-gray max-w-none text-gray-600 font-light space-y-12">
+    <div class="prose prose-gray max-w-none text-gray-600 font-light space-y-16 leading-relaxed">
       
-      <section class="space-y-4">
-        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-sm border-b border-gray-100 pb-2">Logística de Envío</h2>
-        <p id="shipping-main-text">
-          {storeInfo.shipping.content.es}
+      <!-- Shipping Section -->
+      <section class="space-y-6">
+        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-xs border-b border-gray-100 pb-2">1. Logística de Envío</h2>
+        <p class="text-sm">
+          Todos los pedidos se procesan y envían desde nuestro taller en España. Recibirás un número de seguimiento en cuanto el paquete salga de nuestras manos.
         </p>
-        <div class="grid sm:grid-cols-2 gap-8 pt-4">
-            <div class="p-6 bg-gray-50 rounded-sm space-y-2">
-                <span class="text-[10px] uppercase tracking-widest text-gray-400">España Peninsular</span>
-                <p class="text-gray-900 text-sm">24 - 48 Horas Laborables</p>
-            </div>
-            <div class="p-6 bg-gray-50 rounded-sm space-y-2">
-                <span class="text-[10px] uppercase tracking-widest text-gray-400">Unión Europea</span>
-                <p class="text-gray-900 text-sm">3 - 5 Días Laborables</p>
-            </div>
+        
+        <div class="overflow-x-auto pt-4">
+            <table class="w-full text-left text-[10px] uppercase tracking-widest text-gray-500 border-collapse">
+                <thead>
+                    <tr class="border-b border-gray-100">
+                        <th class="py-4 font-bold text-gray-900">Región</th>
+                        <th class="py-4 font-bold text-gray-900 text-right">Plazo Estimado</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50 text-gray-400">
+                    <tr>
+                        <td class="py-4">España Peninsular</td>
+                        <td class="py-4 text-right">24 - 48 Horas</td>
+                    </tr>
+                    <tr>
+                        <td class="py-4">Baleares y Canarias</td>
+                        <td class="py-4 text-right">3 - 5 Días Hábiles</td>
+                    </tr>
+                    <tr>
+                        <td class="py-4">Unión Europea</td>
+                        <td class="py-4 text-right">3 - 7 Días Hábiles</td>
+                    </tr>
+                    <tr>
+                        <td class="py-4">Resto del Mundo</td>
+                        <td class="py-4 text-right">7 - 15 Días Hábiles</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
       </section>
 
-      <section class="space-y-4">
-        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-sm border-b border-gray-100 pb-2">Política de Devolución</h2>
-        <p id="returns-main-text">
-          {storeInfo.returns.content.es}
+      <!-- Returns Section -->
+      <section class="space-y-6">
+        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-xs border-b border-gray-100 pb-2">2. Cómo Devolver</h2>
+        <p class="text-sm">
+            Si no estás 100% satisfecho con tu accesorio Isru, tienes 14 días naturales para solicitar una devolución.
         </p>
-        <ul class="list-disc pl-5 space-y-2 text-sm">
-            <li>El artículo debe estar en su embalaje original.</li>
-            <li>No debe presentar signos de uso o desgaste.</li>
-            <li>Las devoluciones por defectos de fabricación son gratuitas.</li>
-        </ul>
+        
+        <div class="grid md:grid-cols-3 gap-8 pt-4">
+            <div class="space-y-2">
+                <span class="block text-gray-900 font-bold text-[10px]">Paso 01</span>
+                <p class="text-[10px] leading-relaxed">Contacta con nosotros enviando un email a info@isrustudio.com indicando tu número de pedido.</p>
+            </div>
+            <div class="space-y-2">
+                <span class="block text-gray-900 font-bold text-[10px]">Paso 02</span>
+                <p class="text-[10px] leading-relaxed">Prepara el paquete con el producto en su estado original y envuélvelo con cuidado.</p>
+            </div>
+            <div class="space-y-2">
+                <span class="block text-gray-900 font-bold text-[10px]">Paso 03</span>
+                <p class="text-[10px] leading-relaxed">Una vez recibamos el artículo en nuestro atelier, emitiremos el reembolso total de tu compra.</p>
+            </div>
+        </div>
       </section>
 
       <div class="pt-8 border-t border-gray-100">

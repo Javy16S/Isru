@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+---
+
+<Layout title="Aviso Legal | Isru Studio">
+  <main class="w-full max-w-4xl mx-auto px-4 md:px-12 pt-32 pb-20 animate-fade-in">
+    <nav class="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-12">
+        <a href={`${BASE}/`} class="hover:text-black transition-colors" data-i18n="nav.products">Home</a>
+        <span>/</span>
+        <span class="text-gray-900">Aviso Legal</span>
+    </nav>
+
+    <h1 class="font-cinzel text-4xl text-gray-900 mb-10">Compromiso Legal</h1>
+    
+    <div class="prose prose-gray max-w-none text-gray-600 font-light space-y-12 leading-relaxed">
+      <section class="bg-gray-50 p-8 border-l-2 border-gray-900 italic">
+        <p class="text-sm">
+          "Para Isru Studio, la transparencia no es una obligación administrativa, sino el cimiento de nuestra honestidad artesanal. Creemos que conocer la identidad detrás de cada creación es el primer paso para una relación de confianza duradera."
+        </p>
+        <div class="mt-4">
+            <a href={`${BASE}/transparency`} class="text-[9px] uppercase tracking-widest text-gray-900 font-bold border-b border-gray-900 pb-1 hover:text-gray-500 transition-colors">Ver Informe de Transparencia</a>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-xs border-b border-gray-100 pb-2">1. Datos del Titular (LSSI-CE)</h2>
+        <p>
+          En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y Comercio Electrónico (LSSI-CE), se exponen los siguientes datos identificativos del titular de este sitio web:
+        </p>
+        <ul class="list-none pl-0 space-y-2">
+          <li><strong>Denominación Social:</strong> [TU_NOMBRE_O_EMPRESA]</li>
+          <li><strong>NIF/CIF:</strong> [TU_NIF]</li>
+          <li><strong>Domicilio Social:</strong> [TU_DIRECCION_COMPLETA]</li>
+          <li><strong>Email de contacto:</strong> [TU_EMAIL_DE_CONTACTO]</li>
+        </ul>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-sm border-b border-gray-100 pb-2">2. Propiedad Intelectual e Industrial</h2>
+        <p>
+          Isru Studio es titular de todos los derechos de propiedad intelectual e industrial de su página web, así como de los elementos contenidos en la misma (a título enunciativo: imágenes, sonido, audio, vídeo, software o textos; marcas o logotipos, combinaciones de colores, estructura y diseño, selección de materiales usados, etc.).
+        </p>
+        <p>
+          Queda expresamente prohibida la reproducción, distribución y comunicación pública de la totalidad o parte de los contenidos de esta página web con fines comerciales, en cualquier soporte y por cualquier medio técnico, sin la autorización de Isru Studio.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-sm border-b border-gray-100 pb-2">3. Exclusión de Responsabilidad</h2>
+        <p>
+          Isru Studio no se hace responsable, en ningún caso, de los daños y perjuicios de cualquier naturaleza que pudieran ocasionar, a título enunciativo: errores u omisiones en los contenidos, falta de disponibilidad del portal o la transmisión de virus o programas maliciosos o lesivos en los contenidos, a pesar de haber adoptado todas las medidas tecnológicas necesarias para evitarlo.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-sm border-b border-gray-100 pb-2">4. Legislación Aplicable y Jurisdicción</h2>
+        <p>
+          La relación entre Isru Studio y el Usuario se regirá por la normativa española vigente y cualquier controversia se someterá a los Juzgados y tribunales de la ciudad de [TU_CIUDAD].
+        </p>
+      </section>
+
+      <p class="text-[10px] pt-12 text-gray-400 uppercase tracking-widest">
+        Última actualización: Marzo 2026.
+      </p>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

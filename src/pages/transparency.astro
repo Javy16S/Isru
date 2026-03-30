@@ -1,0 +1,120 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { storeInfo } from '../data/info';
+
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+---
+
+<Layout title="Transparencia | Isru Studio" description="Conoce nuestro compromiso con la artesanía ética y la producción sostenible en España.">
+  <main class="w-full pt-32 pb-20">
+    <!-- Hero Section -->
+    <section class="max-w-6xl mx-auto px-4 md:px-12 mb-24 text-center">
+        <h1 class="font-cinzel text-5xl md:text-7xl text-gray-900 mb-8 tracking-tighter animate-fade-in">Transparencia</h1>
+        <p class="max-w-2xl mx-auto text-lg text-gray-500 font-light leading-relaxed animate-fade-in delay-200">
+            En Isru Studio creemos que la honestidad es el nuevo lujo. Nuestra misión es crear accesorios bellos sin comprometer los derechos de las personas ni el futuro del planeta.
+        </p>
+    </section>
+
+    <!-- Metrics Grid (Lefrik Style) -->
+    <section class="bg-gray-50 py-24 mb-24 border-y border-gray-100 text-center">
+        <div class="max-w-6xl mx-auto px-4 md:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
+                <div class="space-y-4">
+                    <span class="block font-cinzel text-6xl text-gray-900">100%</span>
+                    <h3 class="text-xs uppercase tracking-[0.2em] text-gray-400 font-medium">Hecho en España</h3>
+                    <p class="text-sm text-gray-500 px-8">Producción local en talleres artesanales que garantiza condiciones dignas y proximidad.</p>
+                </div>
+                <div class="space-y-4 border-y md:border-y-0 md:border-x border-gray-200 py-12 md:py-0">
+                    <span class="block font-cinzel text-6xl text-gray-900">0%</span>
+                    <h3 class="text-xs uppercase tracking-[0.2em] text-gray-400 font-medium">Piel de Origen Animal</h3>
+                    <p class="text-sm text-gray-500 px-8">Utilizamos exclusivamente piel vegana premium y materiales sintéticos reciclados de alta gama.</p>
+                </div>
+                <div class="space-y-4">
+                    <span class="block font-cinzel text-6xl text-gray-900">3Y</span>
+                    <h3 class="text-xs uppercase tracking-[0.2em] text-gray-400 font-medium">Garantía Certificada</h3>
+                    <p class="text-sm text-gray-500 px-8">Nuestros productos están diseñados para durar años, no temporadas. Tu inversión está protegida.</p>
+                </div>
+            </div>
+
+            <!-- Trust Seals Row -->
+            <div class="flex flex-wrap justify-center gap-12 pt-12 border-t border-gray-200/50 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
+                <div class="flex flex-col items-center gap-2">
+                    <div class="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <span class="text-[8px] uppercase tracking-widest font-bold">Secure Payment</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <div class="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </div>
+                    <span class="text-[8px] uppercase tracking-widest font-bold">Animal Friendly</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <div class="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </div>
+                    <span class="text-[8px] uppercase tracking-widest font-bold">Local Sourced</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Narrative Section (Wouf Style) -->
+    <section class="max-w-6xl mx-auto px-4 md:px-12 mb-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+            <div class="relative group">
+                <div class="aspect-[4/5] bg-gray-100 overflow-hidden rounded-sm">
+                    <img src={`${BASE}/images/imagen_muestra.avif`} alt="Artesanía Isru" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                </div>
+                <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-white p-4 shadow-xl hidden md:block">
+                    <p class="text-[8px] uppercase tracking-widest text-gray-400 leading-tight">
+                        Authentic Craftsmanship &bull; Est. 2024 &bull; Madrid, Spain
+                    </p>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <h2 class="font-cinzel text-3xl text-gray-900 tracking-tight">El Valor de lo Artesanal</h2>
+                <div class="space-y-6 text-gray-600 font-light leading-relaxed">
+                    <p>
+                        Cada accesorio de Isru Studio es el resultado de un compromiso entre la técnica tradicional y la visión contemporánea. Trabajamos con maestros artesanos que cuidan cada puntada, asegurando que cada pieza sea única.
+                    </p>
+                    <p>
+                        Al elegir Isru Studio, no solo adquieres un accesorio premium, sino que apoyas un ecosistema de producción responsable que valora el tiempo y el talento humano por encima de la producción en masa.
+                    </p>
+                    <div class="pt-6">
+                        <a href={`${BASE}/legal-notice`} class="inline-flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] text-gray-900 font-bold group">
+                            Ver Identificación Legal
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section class="max-w-4xl mx-auto px-4 text-center pb-20">
+        <div class="bg-gray-900 text-white p-12 md:p-20">
+            <h2 class="font-cinzel text-2xl mb-6">¿Tienes alguna pregunta?</h2>
+            <p class="text-gray-400 font-light mb-10 max-w-lg mx-auto text-sm">
+                Nuestra transparencia comienza con la comunicación. Estamos aquí para resolver cualquier duda sobre nuestros materiales o procesos.
+            </p>
+            <a href="mailto:info@isrustudio.com" class="text-[10px] uppercase tracking-[0.4em] border-b border-white pb-2 hover:text-gray-300 transition-colors">Contactar con Soporte</a>
+        </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .delay-200 { animation-delay: 0.2s; }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

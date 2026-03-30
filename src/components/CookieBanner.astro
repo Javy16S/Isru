@@ -1,0 +1,64 @@
+---
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+---
+
+<div id="cookie-banner" class="fixed bottom-8 left-8 right-8 md:left-auto md:max-w-md bg-white/80 backdrop-blur-xl border border-white/20 p-8 z-[100] shadow-2xl transform translate-y-[150%] transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] opacity-0">
+  <div class="space-y-6">
+    <div class="space-y-2">
+      <h3 class="font-cinzel text-lg text-gray-900 tracking-wider">Cookie Preference</h3>
+      <p class="text-xs text-gray-500 font-light leading-relaxed">
+        Utilizamos cookies propias y de terceros para mejorar su experiencia y mostrarle contenido relacionado con sus preferencias. 
+        Al hacer clic en "Aceptar Todo", usted consiente el uso de todas las cookies.
+      </p>
+    </div>
+    
+    <div class="flex flex-col gap-3">
+        <button id="accept-all-cookies" class="bg-gray-900 text-white text-[10px] uppercase tracking-[0.3em] py-4 hover:bg-black transition-all">
+            Aceptar Todo
+        </button>
+        <div class="flex gap-3">
+            <button id="reject-cookies" class="flex-1 border border-gray-200 text-gray-500 text-[9px] uppercase tracking-[0.2em] py-3 hover:bg-gray-50 transition-all">
+                Rechazar
+            </button>
+            <a href={`${BASE}/cookies`} class="flex-1 flex items-center justify-center border border-gray-200 text-gray-400 text-[9px] uppercase tracking-[0.2em] py-3 hover:bg-gray-50 transition-all">
+                Configurar
+            </a>
+        </div>
+    </div>
+    
+    <p class="text-[9px] text-gray-300 text-center uppercase tracking-widest font-light">
+        Isru Studio &bull; Legal Compliance
+    </p>
+  </div>
+</div>
+
+<script>
+  function initCookieBanner() {
+    const banner = document.getElementById('cookie-banner');
+    const acceptBtn = document.getElementById('accept-all-cookies');
+    const rejectBtn = document.getElementById('reject-cookies');
+
+    const hasConsented = localStorage.getItem('isru_cookie_consent');
+
+    if (!hasConsented) {
+      setTimeout(() => {
+        banner?.classList.remove('translate-y-[150%]', 'opacity-0');
+        banner?.classList.add('translate-y-0', 'opacity-100');
+      }, 2000);
+    }
+
+    acceptBtn?.addEventListener('click', () => {
+      localStorage.setItem('isru_cookie_consent', 'accepted');
+      banner?.classList.add('translate-y-[150%]', 'opacity-0');
+    });
+
+    rejectBtn?.addEventListener('click', () => {
+      localStorage.setItem('isru_cookie_consent', 'rejected');
+      banner?.classList.add('translate-y-[150%]', 'opacity-0');
+    });
+  }
+
+  // Initialize on load and on view transitions
+  document.addEventListener('DOMContentLoaded', initCookieBanner);
+  document.addEventListener('astro:after-swap', initCookieBanner);
+</script>

@@ -1,0 +1,124 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+
+const faqs = [
+    {
+        category: 'Pedidos y Envíos',
+        q: '¿Cuánto tardará en llegar mi pedido?',
+        a: 'Para envíos dentro de España, el plazo suele ser de 24 a 48 horas laborables. Para envíos internacionales en la UE, entre 3 y 5 días. Los pedidos realizados antes de las 14:00h suelen salir de nuestro taller el mismo día.'
+    },
+    {
+        category: 'Pedidos y Envíos',
+        q: '¿Cómo puedo rastrear mi paquete?',
+        a: 'En cuanto tu pedido sea enviado, recibirás un correo electrónico con un enlace de seguimiento directo para que sepas dónde está tu accesorio en todo momento.'
+    },
+    {
+        category: 'Productos y Cuidado',
+        q: '¿Los accesorios son de piel animal?',
+        a: 'No. En Isru Studio apostamos exclusivamente por piel vegana de alta calidad y materiales reciclados. Nuestras piezas son 100% respetuosas con los animales.'
+    },
+    {
+        category: 'Productos y Cuidado',
+        q: '¿Cómo debo limpiar mi bolso Isru?',
+        a: 'Nuestra piel vegana es muy agradecida. Simplemente utiliza un paño suave y seco para eliminar el polvo. Evita productos químicos agresivos o sumergirlo en agua.'
+    },
+    {
+        category: 'Devoluciones',
+        q: '¿Qué hago si quiero devolver una pieza?',
+        a: 'Tienes 14 días naturales desde la recepción para solicitar una devolución sencilla a través de nuestro email de soporte. El producto debe estar con su embalaje original y sin signos de uso.'
+    }
+];
+---
+
+<Layout title="Ayuda y FAQ | Isru Studio" description="Resuelve tus dudas sobre envíos, políticas y cuidado de productos Isru Studio.">
+  <main class="w-full max-w-4xl mx-auto px-4 md:px-12 pt-32 pb-20 animate-fade-in">
+    <nav class="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-12">
+        <a href={`${BASE}/`} class="hover:text-black transition-colors" data-i18n="nav.products">Home</a>
+        <span>/</span>
+        <span class="text-gray-900">Ayuda</span>
+    </nav>
+
+    <h1 class="font-cinzel text-4xl text-gray-900 mb-12">Centro de Ayuda / FAQ</h1>
+    
+    <div class="space-y-12">
+        {['Pedidos y Envíos', 'Productos y Cuidado', 'Devoluciones'].map((cat) => (
+            <div class="space-y-6">
+                <h2 class="text-[10px] uppercase tracking-[0.3em] font-bold text-gray-400 border-b border-gray-100 pb-4">{cat}</h2>
+                <div class="space-y-4">
+                    {faqs.filter(f => f.category === cat).map((faq, idx) => (
+                        <div class="faq-item border border-gray-100 rounded-sm">
+                            <button class="faq-trigger w-full text-left px-6 py-6 flex justify-between items-center group">
+                                <span class="font-cinzel text-sm text-gray-900 tracking-wide">{faq.q}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-gray-300 group-hover:text-gray-900 transition-transform duration-300"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </button>
+                            <div class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-out opacity-0">
+                                <div class="px-6 pb-8 text-sm text-gray-500 font-light leading-relaxed">
+                                    {faq.a}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        ))}
+    </div>
+
+    <section class="mt-24 pt-12 border-t border-gray-100 text-center space-y-6">
+        <h3 class="font-cinzel text-xl text-gray-900 italic">¿Aún tienes dudas?</h3>
+        <p class="text-xs text-gray-400 uppercase tracking-widest max-w-sm mx-auto leading-loose">
+            Estamos disponibles para atenderte personalmente a través de nuestro email de soporte.
+        </p>
+        <div>
+            <a href="mailto:info@isrustudio.com" class="inline-block text-[10px] uppercase tracking-[0.4em] font-bold text-gray-900 border-b border-gray-900 pb-2 hover:text-gray-500 transition-colors">info@isrustudio.com</a>
+        </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+    function setupFaq() {
+        const items = document.querySelectorAll('.faq-item');
+        
+        items.forEach(item => {
+            const trigger = item.querySelector('.faq-trigger');
+            const content = item.querySelector('.faq-content') as HTMLElement | null;
+            const icon = trigger?.querySelector('svg');
+
+            trigger?.addEventListener('click', () => {
+                const isOpen = content?.style.maxHeight !== '0px' && content?.style.maxHeight !== '';
+                
+                // Close all others
+                items.forEach(other => {
+                    const otherContent = other.querySelector('.faq-content') as HTMLElement | null;
+                    const otherIcon = other.querySelector('svg');
+                    if (otherContent) otherContent.style.maxHeight = '0px';
+                    if (otherContent) otherContent.classList.add('opacity-0');
+                    if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+                });
+
+                // Toggle current
+                if (!isOpen && content) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    content.classList.remove('opacity-0');
+                    if (icon) icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', setupFaq);
+    document.addEventListener('astro:after-swap', setupFaq);
+</script>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

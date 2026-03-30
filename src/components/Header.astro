@@ -1,134 +1,116 @@
 ---
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
 ---
-<header id="mainHeader" class="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-white/20 transition-all duration-500 h-24 flex items-center">
+
+<header id="mainHeader" class="sticky top-0 z-[100] bg-white border-b border-gray-100 transition-all duration-500 h-24 flex items-center group/header">
   <div class="w-full max-w-[1920px] mx-auto px-4 md:px-12 flex items-center justify-between transition-all duration-500">
-    <a class="block w-24 md:w-28 opacity-90 hover:opacity-100 transition-opacity" href={`${import.meta.env.BASE_URL}/`}>
-      <img src={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/images/ISRU.svg`} alt="ISRU" class="w-full h-auto" />
+    <!-- Logo -->
+    <a class="block w-24 md:w-28 opacity-95 hover:opacity-100 transition-opacity" href={`${BASE}/`}>
+      <img src={`${BASE}/images/ISRU.svg`} alt="ISRU" class="w-full h-auto" />
     </a>
     
-    <nav class="hidden md:flex gap-12 items-center" id="mainNav">
-      <a class="text-xs uppercase tracking-[0.15em] text-gray-600 hover-link hover:text-black transition-colors py-1" data-i18n="nav.products" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#productos`}>Shop</a>
-      <a class="text-xs uppercase tracking-[0.15em] text-gray-600 hover-link hover:text-black transition-colors py-1" data-i18n="nav.about" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#about`}>About</a>
-      <a class="text-xs uppercase tracking-[0.15em] text-gray-600 hover-link hover:text-black transition-colors py-1" data-i18n="nav.contact" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#contacto`}>Contact</a>
-    </nav>
-
-    <div class="flex items-center gap-6">
-      <div class="flex items-center gap-2 relative group" id="lang-container">
-        <script>
-           // Inline simple script for language dropdown
-           document.addEventListener('DOMContentLoaded', () => {
-             const trigger = document.getElementById('lang-trigger');
-             const options = document.getElementById('lang-options');
-             const select = document.getElementById('langSelect');
-             const label = document.getElementById('lang-label');
-             
-             // Initialize from localStorage
-             const saved = localStorage.getItem('isru_locale');
-             if (saved && label) {
-                 label.textContent = saved.toUpperCase();
-                 if (select) select.value = saved;
-             }
-
-             trigger?.addEventListener('click', (e) => {
-               e.stopPropagation();
-               options?.classList.toggle('hidden');
-             });
-             
-             options?.querySelectorAll('button').forEach(btn => {
-               btn.addEventListener('click', () => {
-                  const val = btn.dataset.value;
-                  if (label) label.textContent = val.toUpperCase();
-                  options.classList.add('hidden');
-                  if (select) {
-                     select.value = val;
-                     select.dispatchEvent(new Event('change'));
-                  }
-               });
-             });
-             
-             document.addEventListener('click', (e) => {
-               if (!trigger?.contains(e.target)) options?.classList.add('hidden');
-             });
-           });
-        </script>
+    <!-- Main Nav with Mega Menu -->
+    <nav class="hidden md:flex gap-16 items-center h-full" id="mainNav">
+      <!-- Mega Menu Trigger -->
+      <div class="group/nav h-full flex items-center relative">
+        <a class="text-[10px] uppercase tracking-[0.3em] font-bold text-gray-900 cursor-pointer py-11 hover:text-gray-400 transition-colors" href={`${BASE}/collections`} data-i18n="nav.products">Shop</a>
         
-        <button id="lang-trigger" class="flex items-center gap-1 text-xs uppercase tracking-widest text-gray-500 hover:text-black transition cursor-pointer hover-icon px-2 py-1">
-           <span id="lang-label">ES</span>
-           <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7"></path></svg>
-        </button>
-        
-        <div id="lang-options" class="hidden absolute top-full right-0 mt-2 w-24 bg-white shadow-lg border border-gray-100 py-1 z-50">
-           <button class="block w-full text-left px-4 py-2 text-xs uppercase tracking-widest text-gray-500 hover:bg-gray-50 hover:text-black" data-value="es">Español</button>
-           <button class="block w-full text-left px-4 py-2 text-xs uppercase tracking-widest text-gray-500 hover:bg-gray-50 hover:text-black" data-value="en">English</button>
-           <button class="block w-full text-left px-4 py-2 text-xs uppercase tracking-widest text-gray-500 hover:bg-gray-50 hover:text-black" data-value="fr">Français</button>
+        <!-- The Mega Menu Dropdown -->
+        <div class="absolute top-full left-0 w-[400px] bg-white border border-gray-100 shadow-2xl opacity-0 translate-y-4 pointer-events-none group-hover/nav:opacity-100 group-hover/nav:translate-y-0 group-hover/nav:pointer-events-auto transition-all duration-500 ease-out p-10 grid grid-cols-2 gap-10">
+            <div class="space-y-6">
+                <h4 class="text-[9px] uppercase tracking-widest text-gray-400 font-bold border-b border-gray-50 pb-2">Colecciones</h4>
+                <ul class="space-y-4">
+                    <li><a href={`${BASE}/collections`} class="text-[10px] uppercase tracking-widest text-gray-900 hover:text-gray-400 transition-colors">Ver Todo</a></li>
+                    <li><a href={`${BASE}/collections/bolso`} class="text-[10px] uppercase tracking-widest text-gray-900 hover:text-gray-400 transition-colors">Bolsos</a></li>
+                    <li><a href={`${BASE}/collections/cartera`} class="text-[10px] uppercase tracking-widest text-gray-900 hover:text-gray-400 transition-colors">Carteras</a></li>
+                    <li><a href={`${BASE}/collections/organizador`} class="text-[10px] uppercase tracking-widest text-gray-900 hover:text-gray-400 transition-colors">Organizadores</a></li>
+                </ul>
+            </div>
+            <div class="relative overflow-hidden group/img">
+                <img src={`${BASE}/images/Bolso_Azul.webp`} alt="Isru Featured" class="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-105" />
+                <div class="absolute inset-0 bg-black/5 flex items-end p-4">
+                    <span class="text-[8px] uppercase tracking-widest text-white font-bold">New Arrival &bull; Blue Edition</span>
+                </div>
+            </div>
         </div>
-        
-        <select id="langSelect" class="hidden">
-          <option value="es">ES</option>
-          <option value="en">EN</option>
-          <option value="fr">FR</option>
-        </select>
       </div>
 
-      <button id="cart-trigger" class="text-gray-900 transition-colors relative hover-icon px-2 py-1" aria-label="Cart">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-        <span id="cart-count" class="absolute -top-1 -right-1 bg-[#5b2333] text-white text-[9px] w-4 h-4 flex items-center justify-center rounded-full opacity-0 transition-opacity">0</span>
+      <a class="text-[10px] uppercase tracking-[0.3em] font-bold text-gray-900 hover:text-gray-400 transition-colors" data-i18n="nav.about" href={`${BASE}/transparency`}>About</a>
+      <a class="text-[10px] uppercase tracking-[0.3em] font-bold text-gray-900 hover:text-gray-400 transition-colors" data-i18n="nav.contact" href={`${BASE}/#contacto`}>Contact</a>
+    </nav>
+
+    <!-- Right Side (Cart, Lang, Menu) -->
+    <div class="flex items-center gap-8">
+      <!-- Language Switcher (Keep Existing Logic) -->
+      <div class="hidden md:flex items-center gap-2 relative group/lang" id="lang-container">
+        <button id="lang-trigger" class="flex items-center gap-1 text-[10px] uppercase tracking-widest text-gray-900 hover:text-gray-400 transition cursor-pointer px-2 py-1">
+           <span id="lang-label">ES</span>
+           <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+        <div id="lang-options" class="hidden absolute top-full right-0 mt-3 w-24 bg-white shadow-xl border border-gray-50 py-1 z-[110]">
+           <button class="block w-full text-left px-4 py-2 text-[10px] uppercase tracking-widest text-gray-500 hover:bg-gray-50 hover:text-black" data-value="es">Español</button>
+           <button class="block w-full text-left px-4 py-2 text-[10px] uppercase tracking-widest text-gray-500 hover:bg-gray-50 hover:text-black" data-value="en">English</button>
+           <button class="block w-full text-left px-4 py-2 text-[10px] uppercase tracking-widest text-gray-500 hover:bg-gray-50 hover:text-black" data-value="fr">Français</button>
+        </div>
+        <select id="langSelect" class="hidden"><option value="es">ES</option><option value="en">EN</option><option value="fr">FR</option></select>
+      </div>
+
+      <!-- Cart Icon -->
+      <button id="cart-trigger" class="text-gray-900 hover:text-gray-400 transition-colors relative" aria-label="Cart">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+        <span id="cart-count" class="absolute -top-1 -right-1 bg-gray-900 text-white text-[8px] w-3.5 h-3.5 flex items-center justify-center rounded-full opacity-0 transition-opacity">0</span>
       </button>
 
-      <button class="md:hidden text-2xl text-gray-900 focus:outline-none font-light" id="navToggle" aria-label="Abrir menú">
-         <span class="sr-only">Menu</span>
-         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+      <!-- Mobile Toggle -->
+      <button class="md:hidden text-gray-900 focus:outline-none" id="navToggle" aria-label="Menu">
+         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16m-12 6h12"></path></svg>
       </button>
     </div>
   </div>
-  
-  <!-- Mobile Menu -->
-  <div id="mobileMenu" class="hidden md:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 py-8 px-8 flex-col gap-6 animate-fade-in">
-    <a class="block text-sm uppercase tracking-widest text-gray-900 hover-link w-max" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#productos`}>Shop</a>
-    <a class="block text-sm uppercase tracking-widest text-gray-900 hover-link w-max" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#about`}>About</a>
-    <a class="block text-sm uppercase tracking-widest text-gray-900 hover-link w-max" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/#contacto`}>Contact</a>
-  </div>
-</header>
 
-<script>
-  import { toggleCart, cartItems } from '../stores/cart';
+  <script>
+    import { toggleCart, cartItems } from '../stores/cart';
 
-  const navToggle = document.getElementById('navToggle');
-  const mobileMenu = document.getElementById('mobileMenu');
-  
-  // Cart Logic
-  const cartTrigger = document.getElementById('cart-trigger');
-  const cartCount = document.getElementById('cart-count');
+    function initHeader() {
+        const trigger = document.getElementById('lang-trigger');
+        const options = document.getElementById('lang-options');
+        const select = document.getElementById('langSelect') as HTMLSelectElement | null;
+        const label = document.getElementById('lang-label');
+        const mainHeader = document.getElementById('mainHeader');
+        
+        // Language Logic
+        const saved = localStorage.getItem('isru_locale') || 'es';
+        if (label) label.textContent = saved.toUpperCase();
+        if (select) select.value = saved;
 
-  cartTrigger?.addEventListener('click', (e) => {
-    e.preventDefault();
-    toggleCart(true);
-  });
+        trigger?.addEventListener('click', (e) => { e.stopPropagation(); options?.classList.toggle('hidden'); });
+        options?.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const val = btn.dataset.value;
+                if (val && label && select) {
+                    label.textContent = val.toUpperCase(); options?.classList.add('hidden');
+                    select.value = val; select.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            });
+        });
+        document.addEventListener('click', (e) => { if (!trigger?.contains(e.target as Node)) options?.classList.add('hidden'); });
 
-  cartItems.subscribe(items => {
-      const count = Object.values(items).reduce((acc, item) => acc + item.quantity, 0);
-      if (cartCount) {
-          cartCount.textContent = count.toString();
-          cartCount.classList.toggle('opacity-0', count === 0);
-      }
-  });
+        // Cart Logic
+        document.getElementById('cart-trigger')?.addEventListener('click', () => toggleCart(true));
+        cartItems.subscribe(items => {
+            const count = Object.values(items).reduce((acc, item) => acc + item.quantity, 0);
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) { cartCount.textContent = count.toString(); cartCount.classList.toggle('opacity-0', count === 0); }
+        });
 
-  navToggle?.addEventListener('click', () => {
-    mobileMenu?.classList.toggle('hidden');
-    mobileMenu?.classList.toggle('flex');
-    const isExpanded = mobileMenu?.classList.contains('flex');
-    navToggle.setAttribute('aria-expanded', String(isExpanded));
-  });
-
-  // Header Scroll Effect
-  const mainHeader = document.getElementById('mainHeader');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      mainHeader?.classList.add('h-16', 'bg-white/95', 'shadow-sm');
-      mainHeader?.classList.remove('h-24', 'bg-white/70');
-    } else {
-      mainHeader?.classList.remove('h-16', 'bg-white/95', 'shadow-sm');
-      mainHeader?.classList.add('h-24', 'bg-white/70');
+        // Scroll Effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) { mainHeader?.classList.add('h-20', 'shadow-sm'); mainHeader?.classList.remove('h-24'); } 
+            else { mainHeader?.classList.remove('h-20', 'shadow-sm'); mainHeader?.classList.add('h-24'); }
+        }, { passive: true });
     }
-  }, { passive: true });
-</script>
+
+    document.addEventListener('DOMContentLoaded', initHeader);
+    document.addEventListener('astro:after-swap', initHeader);
+  </script>
+</header>

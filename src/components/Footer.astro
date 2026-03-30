@@ -1,19 +1,83 @@
 ---
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
 ---
-<footer class="bg-gray-50 border-t border-gray-200 pt-16 pb-8">
-  <div class="w-full max-w-[1920px] mx-auto px-4 md:px-8">
-    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-      <div class="text-gray-500 text-sm">
-        © <span id="year">{new Date().getFullYear()}</span> <span class="font-cinzel font-bold text-gray-700">IR</span> — <span data-i18n="footer.rights">Todos los derechos reservados</span>
+
+<footer class="bg-white border-t border-gray-100 pt-20 pb-12 mt-auto">
+  <div class="max-w-7xl mx-auto px-4 md:px-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+      
+      <!-- Brand & Newsletter -->
+      <div class="space-y-6 col-span-1 md:col-span-1">
+        <h2 class="font-cinzel text-2xl font-bold tracking-tighter text-gray-900 leading-none">ISRU</h2>
+        <p class="text-[10px] text-gray-400 uppercase tracking-widest leading-loose max-w-[200px]">
+          Artesanía contemporánea. Piezas atemporales diseñadas para el día a día.
+        </p>
+        <div class="pt-4 flex gap-4">
+            <a href="#" class="text-gray-400 hover:text-gray-900 transition-colors">
+                <span class="sr-only">Instagram</span>
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16.4a4.238 4.238 0 110-8.476 4.238 4.238 0 010 8.476zm7.82-10.912a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"></path></svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-gray-900 transition-colors">
+                <span class="sr-only">TikTok</span>
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 448 512"><path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"></path></svg>
+            </a>
+        </div>
       </div>
-      <nav class="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-4">
-        <a href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/care-guide`} class="text-xs uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors" data-i18n="footer.care">Guía de Cuidado</a>
-        <a href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/shipping-returns`} class="text-xs uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors" data-i18n="footer.shipping">Envíos y Devoluciones</a>
-        <a href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/warranty`} class="text-xs uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors" data-i18n="footer.warranty">Garantía</a>
-        <a href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/privacy`} class="text-xs uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors" data-i18n="footer.privacy">Privacidad</a>
-        <a href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/terms`} class="text-xs uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors" data-i18n="footer.terms">Términos</a>
-      </nav>
-      </nav>
+
+      <div>
+        <h4 class="text-[10px] uppercase tracking-[0.3em] font-bold text-gray-900 mb-8 underline underline-offset-[10px] decoration-gray-100" data-i18n="footer.customer_care">Atención al Cliente</h4>
+        <ul class="space-y-4">
+          <li><a href={`${BASE}/faq`} class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors" data-i18n="footer.faq">Preguntas Frecuentes</a></li>
+          <li><a href={`${BASE}/care-guide`} class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors" data-i18n="footer.care">Guía de Cuidado</a></li>
+          <li><a href={`${BASE}/shipping-returns`} class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors" data-i18n="footer.shipping">Envíos y Devoluciones</a></li>
+          <li><a href={`${BASE}/warranty`} class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors" data-i18n="footer.warranty">Garantía Certificada</a></li>
+        </ul>
+      </div>
+
+      <!-- The Brand (Marca) -->
+      <div>
+        <h4 class="text-[10px] uppercase tracking-[0.3em] font-bold text-gray-900 mb-8 underline underline-offset-[10px] decoration-gray-100" data-i18n="footer.atelier">L'Atelier Isru</h4>
+        <ul class="space-y-4">
+          <li><a href={`${BASE}/collections`} class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors" data-i18n="footer.transparency">Nuestra Transparencia</a></li>
+          <li><a href={`${BASE}/collections`} class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors" data-i18n="nav.products">Ver Colección</a></li>
+          <li><a href="mailto:info@isrustudio.com" class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors" data-i18n="footer.collabs">Colaboraciones</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <h4 class="text-[10px] uppercase tracking-[0.3em] font-bold text-gray-900 mb-8 underline underline-offset-[10px] decoration-gray-100" data-i18n="footer.legal_info">Información Legal</h4>
+        <ul class="space-y-4">
+          <li><a href={`${BASE}/legal-notice`} class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors">Aviso Legal</a></li>
+          <li><a href={`${BASE}/privacy`} class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors" data-i18n="footer.privacy">Privacidad</a></li>
+          <li><a href={`${BASE}/cookies`} class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors">Cookies</a></li>
+          <li><a href={`${BASE}/terms`} class="text-[10px] uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors" data-i18n="footer.terms">Términos de Servicio</a></li>
+          <li><a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener" class="text-[9px] uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors flex items-center gap-2">Resolución Litigios <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-8">
+      <div class="flex items-center gap-4 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+         <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" class="h-3" />
+         <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" class="h-4" />
+         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/MasterCard_logo.svg/1000px-MasterCard_logo.svg.png" alt="Mastercard" class="h-4" />
+         <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" class="h-4" />
+         <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Google_Pay_Logo.svg" alt="Google Pay" class="h-4" />
+      </div>
+
+      <div class="text-[9px] uppercase tracking-widest text-gray-300">
+        &copy; {new Date().getFullYear()} <span class="text-gray-900 font-medium">ISRU STUDIO</span> &bull; 100% Spanish Artisanry
+      </div>
     </div>
   </div>
 </footer>
+
+<script>
+  // Simple year update logic
+  const yearSpan = document.getElementById('year');
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear().toString();
+  }
+</script>

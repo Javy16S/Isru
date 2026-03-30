@@ -1,0 +1,91 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { products } from '../../data/products';
+
+export function getStaticPaths() {
+  const categories = [...new Set(products.map(p => p.category))];
+  return categories.map(category => ({
+    params: { category },
+    props: { category }
+  }));
+}
+
+const { category } = Astro.params;
+const categoryProducts = products.filter(p => p.category === category);
+
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+
+// Meta data based on category
+const titles = {
+  bolso: { es: 'Bolsos Artesanales', en: 'Handmade Bags', fr: 'Sacs à main' },
+  cartera: { es: 'Carteras Minimalistas', en: 'Minimal Wallets', fr: 'Portefeuilles' },
+  organizador: { es: 'Organizadores de Viaje', en: 'Travel Organizers', fr: 'Organisateurs' }
+};
+
+const currTitle = titles[category] || { es: 'Colección', en: 'Collection', fr: 'Collection' };
+---
+
+<Layout title={`${currTitle.es} | Isru Studio`} description={`Explora nuestra selección exclusiva de ${category} de piel vegana.`}>
+  <main class="w-full pt-32 pb-20">
+    <nav class="max-w-7xl mx-auto px-4 md:px-12 mb-8 text-[10px] uppercase tracking-[0.2em] text-gray-400">
+        <a href={`${BASE}/`} class="hover:text-black">Home</a> / 
+        <a href={`${BASE}/collections`} class="hover:text-black">Colecciones</a> / 
+        <span class="text-gray-900 font-bold">{category}</span>
+    </nav>
+
+    <section class="max-w-7xl mx-auto px-4 md:px-12 mb-16">
+        <div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-gray-100 pb-12">
+            <div class="space-y-2">
+                <h1 class="font-cinzel text-5xl text-gray-900 tracking-tight">{currTitle.es}</h1>
+                <p class="text-xs text-gray-500 uppercase tracking-widest font-light">{categoryProducts.length} Piezas Seleccionadas</p>
+            </div>
+            <p class="max-w-md text-sm text-gray-400 font-light leading-relaxed text-right italic">
+                Piel vegana premium acabada a mano por artesanos locales en España. Diseño atemporal para el día a día.
+            </p>
+        </div>
+    </section>
+
+    <!-- Product Grid -->
+    <section class="max-w-7xl mx-auto px-4 md:px-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+            {categoryProducts.map((product, idx) => (
+                <div class="product-card opacity-0 translate-y-10 transition-all duration-700 ease-out" style={`animation-delay: ${idx * 150}ms`}>
+                    <a href={`${BASE}/product/${product.id}`} class="group space-y-6 block">
+                        <div class="aspect-[4/5] bg-gray-50 overflow-hidden relative rounded-sm">
+                            <img 
+                                src={`${BASE}/images/${product.front}`} 
+                                alt={product.name.es} 
+                                class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                            />
+                        </div>
+                        <div class="space-y-1 text-center">
+                            <h3 class="font-cinzel text-lg text-gray-900 group-hover:text-gray-500 transition-colors uppercase tracking-tight">{product.name.es}</h3>
+                            <p class="text-sm text-gray-400 font-light tracking-widest">${product.price}</p>
+                        </div>
+                    </a>
+                </div>
+            ))}
+        </div>
+    </section>
+
+    <!-- Empty State -->
+    {categoryProducts.length === 0 && (
+        <div class="text-center py-20">
+            <p class="text-gray-400 font-cinzel italic">Próximamente nuevas piezas...</p>
+        </div>
+    )}
+  </main>
+</Layout>
+
+<script>
+    function triggerAnimations() {
+        const cards = document.querySelectorAll('.product-card');
+        cards.forEach((card, idx) => {
+            setTimeout(() => {
+                card.classList.remove('opacity-0', 'translate-y-10');
+            }, idx * 100);
+        });
+    }
+    document.addEventListener('DOMContentLoaded', triggerAnimations);
+    document.addEventListener('astro:after-swap', triggerAnimations);
+</script>

@@ -35,5 +35,29 @@ export const storeInfo = {
             en: "Our premium vegan leather is durable and easy to care for. Simply wipe with a soft, dry cloth to remove dust. Avoid prolonged contact with water, oils or direct sunlight to maintain original color.",
             fr: "Notre cuir végétalien haut de gamme est durable et facile à entretenir. Essuyez simplement avec un chiffon doux et sec pour enlever la poussière."
         }
+    },
+    identity: {
+        title: { es: 'Nuestra Identidad', en: 'Our Identity', fr: 'Notre Identité' },
+        content: {
+            es: "Isru Studio nace de la necesidad de crear accesorios que unan funcionalidad y estética atemporal. Fundada sobre los pilares de la honestidad y la transparencia, cada pieza cuenta una historia de diseño pensado para el día a día.",
+            en: "Isru Studio was born from the need to create accessories that combine functionality and timeless aesthetics. Founded on the pillars of honesty and transparency, each piece tells a story of design thought for everyday life.",
+            fr: "Isru Studio est né du besoin de créer des accessoires alliant fonctionnalité et esthétique intemporelle. Fondée sur les piliers de l'honnêteté et de la transparence."
+        }
+    },
+    production: {
+        title: { es: 'Producción Ética', en: 'Ethical Production', fr: 'Production Éthique' },
+        content: {
+            es: "Todas nuestras piezas son confeccionadas a mano en talleres locales en España. Creemos en el comercio justo y en el apoyo al talento artesano de proximidad, garantizando condiciones de trabajo dignas y una huella de carbono reducida.",
+            en: "All our pieces are handmade in local workshops in Spain. We believe in fair trade and supporting local artisan talent, guaranteeing decent working conditions and a reduced carbon footprint.",
+            fr: "Toutes nos pièces sont fabriquées à la main dans des ateliers locaux en Espagne. Nous croyons au commerce équitable."
+        }
+    },
+    materials: {
+        title: { es: 'Materiales Conscientes', en: 'Conscious Materials', fr: 'Matériaux Conscients' },
+        content: {
+            es: "Utilizamos piel vegana de alta calidad y forros reciclados. Seleccionamos materiales que no solo sean bellos y duraderos, sino que también minimicen el impacto ambiental durante su proceso de fabricación.",
+            en: "We use high-quality vegan leather and recycled linings. We select materials that are not only beautiful and durable, but also minimize environmental impact during their manufacturing process.",
+            fr: "Nous utilisons du cuir végétalien de haute qualité et des doublures recyclées."
+        }
     }
 };
