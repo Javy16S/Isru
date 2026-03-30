@@ -3,42 +3,53 @@
 
 <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none transition-opacity duration-300"></div>
 
-<aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-white z-[70] transform translate-x-full transition-transform duration-300 ease-out flex flex-col shadow-2xl">
+<aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-white z-[70] transform translate-x-full transition-transform duration-500 cubic-bezier(0.2, 0.8, 0.2, 1) flex flex-col shadow-[-10px_0_30px_-10px_rgba(0,0,0,0.1)]">
   <!-- Header -->
-  <div class="p-6 border-b border-gray-100 flex items-center justify-between">
-    <h2 class="font-cinzel text-xl text-gray-900">Tu Cesta</h2>
-    <button id="close-cart" class="text-gray-400 hover:text-black transition-colors p-2">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+  <div class="p-8 border-b border-gray-50 flex items-center justify-between">
+    <div class="space-y-1">
+        <h2 class="font-cinzel text-xl text-gray-900 tracking-wide">Your Selection</h2>
+        <p class="text-[10px] text-gray-400 uppercase tracking-widest">Selected items ready for you</p>
+    </div>
+    <button id="close-cart" class="text-gray-300 hover:text-black transition-colors p-2">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 18L18 6M6 6l12 12"></path></svg>
     </button>
   </div>
 
   <!-- Items -->
-  <div class="flex-1 overflow-y-auto p-6 space-y-6" id="cart-items-container">
+  <div class="flex-1 overflow-y-auto p-8 space-y-8 scroll-smooth" id="cart-items-container">
     <!-- Items will be injected here by JS -->
-    <div class="h-full flex flex-col items-center justify-center text-gray-400 space-y-4 empty-state">
-        <svg class="w-12 h-12 stroke-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-        <p class="font-light tracking-wide">Your cart is empty</p>
+    <div class="h-full flex flex-col items-center justify-center text-gray-300 space-y-6 empty-state animate-fade-in">
+        <svg class="w-16 h-16 stroke-[0.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+        <p class="font-light tracking-[0.2em] text-xs uppercase">The cart is waiting</p>
     </div>
   </div>
 
   <!-- Footer -->
-  <div class="p-6 bg-gray-50 border-t border-gray-100 space-y-4 relative" id="cart-footer">
-    <div class="flex justify-between items-end">
-        <span class="text-sm text-gray-500 uppercase tracking-widest">Total</span>
-        <span class="text-2xl font-cinzel text-[#5b2333]" id="cart-total">$0.00</span>
+  <div class="p-8 bg-white border-t border-gray-50 space-y-6 relative" id="cart-footer">
+    <div class="space-y-4">
+        <div class="flex justify-between items-center text-xs uppercase tracking-widest text-gray-400">
+            <span>Subtotal</span>
+            <span id="cart-subtotal">$0.00</span>
+        </div>
+        <div class="flex justify-between items-center text-xs uppercase tracking-widest text-gray-400">
+            <span>Shipping</span>
+            <span class="text-gray-900">Calculated later</span>
+        </div>
+        <div class="flex justify-between items-end pt-2 border-t border-gray-50">
+            <span class="text-sm text-gray-900 uppercase tracking-[0.2em]">Total</span>
+            <span class="text-2xl font-cinzel text-gray-900" id="cart-total">$0.00</span>
+        </div>
     </div>
     
-    <button id="checkout-btn" class="w-full bg-[#5b2333] text-white py-4 uppercase tracking-[0.2em] text-xs hover:bg-black transition-colors shadow-lg shadow-[#5b2333]/20 relative overflow-hidden">
-        <span id="checkout-text">Checkout seguro</span>
+    <button id="checkout-btn" class="w-full bg-gray-900 text-white py-5 uppercase tracking-[0.3em] text-[10px] hover:bg-black transition-all duration-300 transform active:scale-[0.98] shadow-lg shadow-gray-200">
+        Complete Purchase
     </button>
-    
-    <p class="text-center text-[10px] text-gray-400 uppercase tracking-wider">Envío y tasas calculadas en destino</p>
-  </div>
-  
-  <!-- Checkout Overlay -->
-  <div id="checkout-overlay" class="absolute inset-0 bg-white z-[80] flex flex-col items-center justify-center space-y-4 opacity-0 pointer-events-none transition-opacity duration-500">
-    <svg class="animate-spin w-8 h-8 text-[#5b2333]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
-    <p class="font-cinzel text-gray-900 tracking-widest uppercase text-sm">Conectando pasarela...</p>
+
+    <!-- Checkout Overlay (from GitHub) -->
+    <div id="checkout-overlay" class="absolute inset-0 bg-white z-[80] flex flex-col items-center justify-center space-y-4 opacity-0 pointer-events-none transition-opacity duration-500">
+        <svg class="animate-spin w-8 h-8 text-gray-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+        <p class="font-cinzel text-gray-900 tracking-widest uppercase text-sm">Processing...</p>
+    </div>
   </div>
 </aside>
 
@@ -116,6 +127,8 @@
   cartItems.subscribe(renderCart);
   
   cartTotal.subscribe(total => {
+      const subtotalEl = document.getElementById('cart-subtotal');
+      if(subtotalEl) subtotalEl.textContent = `$${total.toFixed(2)}`;
       if(totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
   });
 

@@ -1,7 +1,7 @@
 ---
 ---
-<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 transition-all duration-300">
-  <div class="w-full max-w-[1920px] mx-auto px-4 md:px-12 h-20 flex items-center justify-between">
+<header id="mainHeader" class="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-white/20 transition-all duration-500 h-24 flex items-center">
+  <div class="w-full max-w-[1920px] mx-auto px-4 md:px-12 flex items-center justify-between transition-all duration-500">
     <a class="block w-24 md:w-28 opacity-90 hover:opacity-100 transition-opacity" href={`${import.meta.env.BASE_URL}/`}>
       <img src={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0,-1) : import.meta.env.BASE_URL}/images/ISRU.svg`} alt="ISRU" class="w-full h-auto" />
     </a>
@@ -119,4 +119,16 @@
     const isExpanded = mobileMenu?.classList.contains('flex');
     navToggle.setAttribute('aria-expanded', String(isExpanded));
   });
+
+  // Header Scroll Effect
+  const mainHeader = document.getElementById('mainHeader');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      mainHeader?.classList.add('h-16', 'bg-white/95', 'shadow-sm');
+      mainHeader?.classList.remove('h-24', 'bg-white/70');
+    } else {
+      mainHeader?.classList.remove('h-16', 'bg-white/95', 'shadow-sm');
+      mainHeader?.classList.add('h-24', 'bg-white/70');
+    }
+  }, { passive: true });
 </script>

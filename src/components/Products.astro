@@ -115,36 +115,55 @@ import { products } from '../data/products';
     </div>
   </div>
 
-  <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+  <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16 min-h-[400px]">
     <!-- Server-Side Rendered for SEO -->
     {products.map((p, index) => {
       const displayName = p.name.es;
-      const frontPath = `${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL}/images/${p.front}`;
-      const backPath = `${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL}/images/${p.back}`;
+      const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+      const frontPath = `${BASE}/images/${p.front}`;
+      const backPath = `${BASE}/images/${p.back}`;
       
       return (
           <article class={`product-card group relative opacity-0 translate-y-12 transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)]`}>
-            <a class="block relative" href={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL}/product/${p.id}`} aria-label={displayName}>
-              <div class="relative aspect-[3/4] w-full bg-[#f8f8f8] overflow-hidden mb-4 rounded-sm">
+            <a class="block relative" href={`${BASE}/product/${p.id}`} aria-label={displayName}>
+              <div class="relative aspect-[3/4] w-full bg-[#f8f8f8] overflow-hidden mb-4 rounded-sm transition-transform duration-500 ease-out group-hover:shadow-xl">
                 <div class="hover-swap relative w-full h-full">
-                  <img class="absolute inset-0 w-full h-full object-contain p-0 transition-transform duration-700 ease-out opacity-100 scale-100 group-hover:scale-105" 
+                  <img class="absolute inset-0 w-full h-full object-contain p-0 transition-transform duration-1000 ease-out opacity-100 scale-100 group-hover:scale-105" 
                        src={frontPath} alt={`${displayName} - frontal`} loading="lazy">
                   
-                  <img class="absolute inset-0 w-full h-full object-contain p-0 transition-transform duration-700 ease-out opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-100" 
+                  <img class="absolute inset-0 w-full h-full object-contain p-0 transition-transform duration-1000 ease-out opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-100" 
                        src={backPath} alt={`${displayName} - trasera`} loading="lazy">
                 </div>
                 
-                {p.id === 1 && <span class="absolute top-4 left-4 text-[10px] uppercase tracking-[0.2em] text-gray-400">New Arrival</span>}
+                {p.id === 1 && <span class="absolute top-4 left-4 text-[10px] uppercase tracking-[0.2em] text-gray-400 bg-white/50 backdrop-blur-sm px-2 py-1">New Arrival</span>}
+                
+                <!-- Quick Look Overlay -->
+                <div class="absolute inset-x-0 bottom-0 p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                    <div class="w-full bg-white/90 backdrop-blur-md py-3 text-center text-[10px] uppercase tracking-[0.2em] text-gray-900 border border-white/20">
+                        View Details
+                    </div>
+                </div>
               </div>
               
-              <div class="text-left space-y-1 mt-2">
-                <h3 class="font-cinzel text-base text-gray-900 tracking-wide hover-link transition-all">{displayName}</h3>
-                <p class="font-light text-sm text-gray-500 tracking-wide">${p.price}</p>
+              <div class="text-left space-y-1">
+                <div class="flex justify-between items-start">
+                    <h3 class="font-cinzel text-base text-gray-900 tracking-wide group-hover:underline decoration-gray-200 underline-offset-4 decoration-1 transition-all">{displayName}</h3>
+                    <p class="font-light text-sm text-gray-900 tracking-wide">${p.price}</p>
+                </div>
+                <p class="text-[10px] uppercase tracking-[0.15em] text-gray-400">{p.category}</p>
+              </div>
               </div>
             </a>
           </article>
       );
     })}
+  </div>
+  
+  <!-- Empty State Container (Managed by script.fixed.js) -->
+  <div id="noResults" class="hidden flex-col items-center justify-center py-32 space-y-4 text-gray-400 animate-fade-in">
+    <svg class="w-12 h-12 stroke-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+    <p class="font-cinzel text-sm uppercase tracking-widest">No matching pieces found</p>
+    <button onclick="document.getElementById('searchInput').value = ''; document.getElementById('searchInput').dispatchEvent(new Event('input'))" class="text-[10px] uppercase tracking-widest underline underline-offset-4 hover:text-black transition-colors">Clear filters</button>
   </div>
 </section>
 

@@ -6,10 +6,15 @@
   :root {
     --gold: #D4AF37;
     --blue: #1E6FA7;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --premium-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
   }
   
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 

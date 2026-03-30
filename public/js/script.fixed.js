@@ -134,7 +134,18 @@
       if (col && col !== 'all') results = products.filter(p => p.color === col);
       const max = priceMax ? Number(priceMax.value) : Infinity;
       if (!isNaN(max)) results = results.filter(p => p.price <= max);
-      renderProducts(results);
+
+      const noResults = document.getElementById('noResults');
+      if (results.length === 0) {
+          if (productGrid) productGrid.classList.add('hidden');
+          if (noResults) noResults.classList.remove('hidden');
+          if (noResults) noResults.classList.add('flex');
+      } else {
+          if (productGrid) productGrid.classList.remove('hidden');
+          if (noResults) noResults.classList.add('hidden');
+          if (noResults) noResults.classList.remove('flex');
+          renderProducts(results);
+      }
     }
 
     function debounce(fn, wait = 220) { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); }; }

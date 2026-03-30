@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { storeInfo } from '../data/info';
+
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+---
+
+<Layout title="Envíos y Devoluciones | Isru Studio">
+  <main class="w-full max-w-4xl mx-auto px-4 md:px-12 pt-32 pb-20 animate-fade-in">
+    <nav class="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gray-500 mb-12">
+        <a href={`${BASE}/`} class="hover:text-black transition-colors" data-i18n="nav.products">Home</a>
+        <span>/</span>
+        <span class="text-gray-900" data-i18n="pdp.shipping">Shipping & Returns</span>
+    </nav>
+
+    <h1 class="font-cinzel text-4xl text-gray-900 mb-8" data-i18n="pdp.shipping">Envíos y Devoluciones</h1>
+    
+    <div class="prose prose-gray max-w-none text-gray-600 font-light space-y-12">
+      
+      <section class="space-y-4">
+        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-sm border-b border-gray-100 pb-2">Logística de Envío</h2>
+        <p id="shipping-main-text">
+          {storeInfo.shipping.content.es}
+        </p>
+        <div class="grid sm:grid-cols-2 gap-8 pt-4">
+            <div class="p-6 bg-gray-50 rounded-sm space-y-2">
+                <span class="text-[10px] uppercase tracking-widest text-gray-400">España Peninsular</span>
+                <p class="text-gray-900 text-sm">24 - 48 Horas Laborables</p>
+            </div>
+            <div class="p-6 bg-gray-50 rounded-sm space-y-2">
+                <span class="text-[10px] uppercase tracking-widest text-gray-400">Unión Europea</span>
+                <p class="text-gray-900 text-sm">3 - 5 Días Laborables</p>
+            </div>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-gray-900 font-normal uppercase tracking-widest text-sm border-b border-gray-100 pb-2">Política de Devolución</h2>
+        <p id="returns-main-text">
+          {storeInfo.returns.content.es}
+        </p>
+        <ul class="list-disc pl-5 space-y-2 text-sm">
+            <li>El artículo debe estar en su embalaje original.</li>
+            <li>No debe presentar signos de uso o desgaste.</li>
+            <li>Las devoluciones por defectos de fabricación son gratuitas.</li>
+        </ul>
+      </section>
+
+      <div class="pt-8 border-t border-gray-100">
+        <p class="text-[10px] text-gray-400 uppercase tracking-widest">
+            ¿Tienes más preguntas? <a href={`${BASE}/#contacto`} class="text-gray-900 underline underline-offset-4">Contáctanos</a>
+        </p>
+      </div>
+
+    </div>
+  </main>
+</Layout>
+
+<script define:vars={{ storeInfo }}>
+  document.addEventListener('localeChanged', (e) => {
+    const locale = e.detail.locale;
+    const shippingText = document.getElementById('shipping-main-text');
+    const returnsText = document.getElementById('returns-main-text');
+    
+    if (shippingText && storeInfo.shipping.content[locale]) {
+        shippingText.textContent = storeInfo.shipping.content[locale];
+    }
+    if (returnsText && storeInfo.returns.content[locale]) {
+        returnsText.textContent = storeInfo.returns.content[locale];
+    }
+  });
+</script>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

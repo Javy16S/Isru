@@ -1,0 +1,105 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { storeInfo } from '../data/info';
+
+const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+---
+
+<Layout title="Guía de Cuidado | Isru Studio">
+  <main class="w-full max-w-[1920px] mx-auto px-4 md:px-12 pt-32 pb-20 animate-fade-in">
+    <div class="max-w-4xl mx-auto">
+        <nav class="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gray-500 mb-12">
+            <a href={`${BASE}/`} class="hover:text-black transition-colors" data-i18n="nav.products">Home</a>
+            <span>/</span>
+            <span class="text-gray-900" data-i18n="pdp.materials">Care Guide</span>
+        </nav>
+
+        <h1 class="font-cinzel text-5xl md:text-6xl text-gray-900 mb-8 leading-tight">Guía de <br/><span class="text-gray-400">Cuidado Isru</span></h1>
+        
+        <div class="prose prose-gray max-w-none text-gray-600 font-light space-y-16 mt-16">
+        
+        <section class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <h2 class="text-gray-900 font-normal uppercase tracking-widest text-sm border-b border-gray-100 pb-2">Nuestra Piel Vegana</h2>
+                <p id="care-main-text" class="text-lg leading-relaxed">
+                {storeInfo.care.content.es}
+                </p>
+                <p class="text-sm">
+                Diseñada para resistir el ritmo de la mujer moderna, nuestra piel vegana es tan duradera como elegante. Seguir estos sencillos consejos asegurará que tu pieza Isru luzca como el primer día durante años.
+                </p>
+            </div>
+            <div class="bg-gray-50 aspect-square flex items-center justify-center p-12 rounded-sm overflow-hidden group">
+                <img src={`${BASE}/images/Bolso_Azul.webp`} alt="Material Detail" class="w-full h-full object-contain transform transition-transform duration-1000 group-hover:scale-110" />
+            </div>
+        </section>
+
+        <section class="space-y-8">
+            <h2 class="text-gray-900 font-normal uppercase tracking-widest text-sm border-b border-gray-100 pb-2">Rutina de Limpieza</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="space-y-3">
+                    <span class="text-xs font-cinzel text-gray-900">01. Polvo Diario</span>
+                    <p class="text-xs leading-relaxed">Usa un paño de microfibra seco para eliminar partículas de polvo diariamente. Esto evita acumulaciones en los poros del material.</p>
+                </div>
+                <div class="space-y-3">
+                    <span class="text-xs font-cinzel text-gray-900">02. Manchas Leves</span>
+                    <p class="text-xs leading-relaxed">Si hay una mancha leve, humedece ligeramente el paño con agua tibia (nunca caliente) y un toque de jabón neutro si es necesario.</p>
+                </div>
+                <div class="space-y-3">
+                    <span class="text-xs font-cinzel text-gray-900">03. Secado Natural</span>
+                    <p class="text-xs leading-relaxed">Deja secar tu accesorio siempre de forma natural, alejado de fuentes de calor directas o luz solar intensa.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-8 bg-gray-900 text-white p-12 rounded-sm">
+            <h2 class="text-white font-normal uppercase tracking-widest text-sm border-b border-white/10 pb-4">Lo que debes evitar</h2>
+            <div class="grid lg:grid-cols-2 gap-12">
+                <ul class="space-y-4 text-sm font-light">
+                    <li class="flex gap-4">
+                        <span class="text-gray-500">—</span>
+                        <span>Productos químicos agresivos como alcohol, acetona o lejía.</span>
+                    </li>
+                    <li class="flex gap-4">
+                        <span class="text-gray-500">—</span>
+                        <span>Exposición prolongada a lluvia intensa sin secado posterior.</span>
+                    </li>
+                </ul>
+                <ul class="space-y-4 text-sm font-light">
+                    <li class="flex gap-4">
+                        <span class="text-gray-500">—</span>
+                        <span>Fricción contra superficies abrasivas que puedan rayar el acabado.</span>
+                    </li>
+                    <li class="flex gap-4">
+                        <span class="text-gray-500">—</span>
+                        <span>Sobrellenado de bolsos y carteras que deformen su estructura.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        </div>
+    </div>
+  </main>
+</Layout>
+
+<script define:vars={{ storeInfo }}>
+  document.addEventListener('localeChanged', (e) => {
+    const locale = e.detail.locale;
+    const careText = document.getElementById('care-main-text');
+    
+    if (careText && storeInfo.care.content[locale]) {
+        careText.textContent = storeInfo.care.content[locale];
+    }
+  });
+</script>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

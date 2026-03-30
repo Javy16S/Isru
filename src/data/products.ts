@@ -17,6 +17,9 @@ export interface Product {
         fr: string;
         [key: string]: string;
     };
+    dimensions?: string;
+    materials?: string;
+    weight?: string;
 }
 
 export const products: Product[] = [
@@ -31,8 +34,11 @@ export const products: Product[] = [
         description: {
             es: "Diseño ultra delgado para la mujer moderna. Fabricada en piel vegana de alta calidad con acabados en azul profundo. Ideal para llevar lo esencial sin abultar.",
             en: "Ultra-slim design for the modern woman. Crafted from high-quality vegan leather with deep blue finishes. Ideal for carrying essentials without bulk.",
-            fr: "Design ultra-mince pour la femme moderne. Fabriqué en cuir végétalien de haute qualité avec des finitions bleu profond. Idéal pour transporter l'essentiel sans encombrement."
-        }
+            fr: "Design ultra-mince pour la femme moderne. Fabriqué en cuir végétalien de haute calidad avec des finitions bleu profond. Idéal pour transporter l'essentiel sans encombrement."
+        },
+        dimensions: "10cm x 8cm x 0.5cm",
+        materials: "Premium Vegan Leather",
+        weight: "45g"
     },
     {
         id: 2,
@@ -46,7 +52,10 @@ export const products: Product[] = [
             es: "Elegancia atemporal. Este bolso tote en tono piel combina versatilidad y sofisticación. Espacioso y estructurado para el día a día.",
             en: "Timeless elegance. This skin-tone tote bag combines versatility and sophistication. Spacious and structured for everyday use.",
             fr: "Élégance intemporelle. Ce sac fourre-tout ton chair allie polyvalence et sophistication. Spacieux et structuré pour un usage quotidien."
-        }
+        },
+        dimensions: "35cm x 30cm x 12cm",
+        materials: "Soft Touch Vegan Leather",
+        weight: "450g"
     },
     {
         id: 3,
@@ -60,6 +69,9 @@ export const products: Product[] = [
             es: "El compañero perfecto para la oficina o el fin de semana. Acabado en azul marino premium con detalles minimalistas.",
             en: "The perfect companion for the office or the weekend. Premium navy blue finish with minimalist details.",
             fr: "Le compagnon idéal pour le bureau ou le week-end. Finition bleu marine premium avec des détails minimalistes."
-        }
+        },
+        dimensions: "35cm x 30cm x 12cm",
+        materials: "Soft Touch Vegan Leather",
+        weight: "450g"
     }
 ];

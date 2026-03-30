@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { products } from '../../data/products';
+import { storeInfo } from '../../data/info';
 
 export async function getStaticPaths() {
   return products.map(product => ({
@@ -10,7 +11,7 @@ export async function getStaticPaths() {
 }
 
 const { product } = Astro.props;
-const { id, name, price, description, front, back, color, category } = product;
+const { id, name, price, description, front, back, color, category, dimensions, materials, weight } = product;
 
 const BASE = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
 const frontImg = `${BASE}/images/${front}`;
@@ -41,8 +42,7 @@ const displayNameColor = colorNames[color] || color.toUpperCase();
         <span class="text-gray-300">/</span>
         <span class="text-gray-900 font-medium" id="pdp-breadcrumb-name">{name.es}</span>
       </nav>
-
-      <div class="flex flex-col lg:flex-row gap-16 lg:gap-24 relative items-start">
+      <div class="flex flex-col lg:flex-row gap-16 lg:gap-24 relative items-start">
         
         <!-- Cascada masiva de Galería (Columna Izda) -->
         <div class="w-full lg:w-3/5 space-y-4 md:space-y-6 animate-fade-in" style="animation-delay: 0.1s;">
@@ -63,8 +63,87 @@ const displayNameColor = colorNames[color] || color.toUpperCase();
           <div class="space-y-6">
             <span class="text-[10px] md:text-xs uppercase tracking-[0.4em] text-gray-400" data-i18n={`cat.${category}`}>{category}</span>
             <h1 id="pdp-title" class="font-cinzel text-5xl md:text-6xl text-gray-900 font-light leading-[1.1] tracking-wide">{name.es}</h1>
-            <p class="font-cinzel text-3xl text-gray-900 font-light tracking-wider">${price}</p>
+            <p class="font-cinzel text-3xl text-gray-900 font-light tracking-wider">${price}0</p>
           </div>
+
+          <p id="pdp-desc" class="text-gray-600 leading-[1.8] font-light text-base md:text-lg tracking-wide border-t border-gray-100/60 pt-8">
+            {description.es}
+          </p>
+
+          <div class="space-y-10 pt-4">
+             <!-- Anillo Activo Color UI -->
+             <div class="space-y-5">
+                <span id="pdp-color-label" class="text-[10px] uppercase tracking-[0.3em] font-light text-gray-500">Color: <span class="text-gray-900 font-medium ml-2">{displayNameColor}</span></span>
+                <div class="flex gap-4 items-center">
+                   <!-- Activo -->
+                   <button class={`relative w-8 h-8 rounded-full border border-gray-100 cursor-pointer flex items-center justify-center group ${color === 'gold' ? 'bg-[#D4AF37]' : color === 'blue' ? 'bg-[#1e3a8a]' : 'bg-gray-900'}`}>
+                     <span class="absolute inset-[-6px] rounded-full border border-[#5b2333] opacity-100 transition-opacity"></span>
+                   </button>
+                   <!-- Inactivos simular -->
+                   {color !== 'black' && <button class="w-6 h-6 rounded-full border border-gray-200 bg-gray-900 opacity-20 hover:opacity-100 transition-opacity cursor-not-allowed hover-icon"></button>}
+                   {color !== 'gold' && <button class="w-6 h-6 rounded-full border border-gray-200 bg-[#D4AF37] opacity-20 hover:opacity-100 transition-opacity cursor-not-allowed hover-icon"></button>}
+                </div>
+             </div>
+
+             <!-- Caja de Compras y Suma -->
+             <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                <div class="flex items-center justify-between sm:justify-center border border-gray-200 rounded-sm">
+                   <button id="decreaseBtn" class="px-6 py-4 hover:bg-[#f9f6f0] text-gray-500 hover-icon transition-colors">-</button>
+                   <span id="quantity" class="px-2 py-4 text-sm min-w-[3rem] text-center font-light">1</span>
+                   <button id="increaseBtn" class="px-6 py-4 hover:bg-[#f9f6f0] text-gray-500 hover-icon transition-colors">+</button>
+                </div>
+                
+                <button id="add-to-cart-btn" class="flex-1 bg-[#5b2333] text-white uppercase tracking-[0.2em] font-cinzel text-xs py-5 hover:bg-[#3d1621] shadow-xl shadow-[#5b2333]/10 transition-all duration-300 transform group" data-i18n="pdp.add">
+                   <span class="border-b border-transparent group-hover:border-white/50 pb-1 transition-colors">Añadir al carrito</span>
+                </button>
+             </div>
+          </div>
+
+          <!-- Componentes de Detalles Acordeón Puros -->
+          <div class="border-t border-gray-200 pt-8 mt-12 space-y-6">
+             {dimensions && (
+              <details class="group cursor-pointer">
+                  <summary class="flex justify-between items-center text-xs uppercase tracking-[0.2em] text-gray-900 list-none hover:text-[#5b2333] transition-colors hover-icon">
+                     <span>Specifications</span>
+                     <span class="transform group-open:rotate-180 transition-transform duration-300 font-light">+</span>
+                  </summary>
+                  <div class="text-gray-500 text-xs font-light mt-6 space-y-2 bg-[#f9f6f0]/40 p-6 border-l border-[#5b2333]">
+                     <p><span class="text-gray-900 font-normal">Dimensions:</span> {dimensions}</p>
+                     <p><span class="text-gray-900 font-normal">Materials:</span> {materials}</p>
+                     <p><span class="text-gray-900 font-normal">Weight:</span> {weight}</p>
+                  </div>
+               </details>
+             )}
+
+             <details class="group cursor-pointer pt-6 border-t border-gray-100">
+                <summary class="flex justify-between items-center text-xs uppercase tracking-[0.2em] text-gray-900 list-none font-medium hover:text-[#5b2333] transition-colors">
+                   <span data-i18n="pdp.materials">Materials & Care Guide</span>
+                   <span class="transform group-open:rotate-180 transition-transform duration-300 font-light">+</span>
+                </summary>
+                <div class="text-gray-500 text-sm font-light mt-6 leading-relaxed animate-fade-in bg-[#f9f6f0]/40 p-6 border-l border-[#5b2333]">
+                   <p id="pdp-care-text">{storeInfo.care.content.es}</p>
+                   <a href={`${BASE}/care-guide`} class="inline-block mt-4 text-[9px] uppercase tracking-widest text-gray-900 border-b border-gray-900/20 hover:border-gray-900 transition-colors pb-0.5">Read Full Care Guide</a>
+                </div>
+             </details>
+
+             <details class="group cursor-pointer pt-6 border-t border-gray-100">
+                <summary class="flex justify-between items-center text-xs uppercase tracking-[0.2em] text-gray-900 list-none font-medium hover:text-[#5b2333] transition-colors">
+                   <span data-i18n="pdp.shipping">Shipping & Warranty</span>
+                   <span class="transform group-open:rotate-180 transition-transform duration-300 font-light">+</span>
+                </summary>
+                <div class="text-gray-500 text-sm font-light mt-6 leading-relaxed animate-fade-in bg-[#f9f6f0]/40 p-6 border-l border-[#5b2333]">
+                   <p id="pdp-shipping-text">{storeInfo.shipping.content.es}</p>
+                   <div class="flex gap-4 mt-6 pt-4 border-t border-gray-50/20">
+                      <a href={`${BASE}/shipping-returns`} class="text-[9px] uppercase tracking-widest text-gray-900 border-b border-gray-900/20 hover:border-gray-900 transition-colors pb-0.5">Shipping Details</a>
+                      <a href={`${BASE}/warranty`} class="text-[9px] uppercase tracking-widest text-gray-900 border-b border-gray-900/20 hover:border-gray-900 transition-colors pb-0.5">Warranty Info</a>
+                   </div>
+                </div>
+             </details>
+          </div>
+
+        </div>
+      </div>
+hanges
 
           <p id="pdp-desc" class="text-gray-600 leading-[1.8] font-light text-base md:text-lg tracking-wide border-t border-gray-100/60 pt-8">
             {description.es}
@@ -125,10 +204,17 @@ const displayNameColor = colorNames[color] || color.toUpperCase();
         </div>
       </div>
     </div>
+<<<<<<< Updated upstream
+=======
+
+      </div>
+    </div>
+
+>>>>>>> Stashed changes
   </main>
 </Layout>
 
-<script>
+<script define:vars={{ storeInfo }}>
   import { addCartItem, toggleCart } from '../../stores/cart';
 
   const decreaseBtn = document.getElementById('decreaseBtn');
@@ -143,10 +229,21 @@ const displayNameColor = colorNames[color] || color.toUpperCase();
         const product = JSON.parse(productContainer.getAttribute('data-product-full') || '{}');
         const titleEl = document.getElementById('pdp-title');
         const descEl = document.getElementById('pdp-desc');
+        const colorEl = document.getElementById('pdp-color-label');
+        const careEl = document.getElementById('pdp-care-text');
+        const shippingEl = document.getElementById('pdp-shipping-text');
 
         if (titleEl && product.name) titleEl.textContent = product.name[locale] || product.name.es;
         if (descEl && product.description) descEl.textContent = product.description[locale] || product.description.es;
+        if (colorEl && product.color) {
+            colorEl.textContent = `COLOR: ${product.color.toUpperCase()}`;
+        }
         
+        // Static store policy translations
+        if (careEl && storeInfo.care.content[locale]) careEl.textContent = storeInfo.care.content[locale];
+        if (shippingEl && storeInfo.shipping.content[locale]) shippingEl.textContent = storeInfo.shipping.content[locale];
+
+        // Update container attributes for Cart
         productContainer.setAttribute('data-product-name', product.name[locale] || product.name.es);
      } catch(e) { console.error('Error on translating PDP', e); }
   }

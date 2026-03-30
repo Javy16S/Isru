@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CartDrawer from '../components/CartDrawer.astro';
+import { ViewTransitions } from 'astro:transitions';
 import SmoothScroll from '../components/SmoothScroll.astro';
 
 interface Props {
@@ -38,6 +39,7 @@ const { title, description = "IR: accesorios de mujer hechos a mano para necesid
 		<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 		
 		<title>{title}</title>
+		<ViewTransitions />
 	</head>
 	<body class="bg-white text-gray-900 font-sans antialiased flex flex-col min-h-screen">
 		<Header />
@@ -59,6 +61,7 @@ const { title, description = "IR: accesorios de mujer hechos a mano para necesid
           'col.all': 'Color', 'col.gold': 'Dorado', 'col.blue': 'Azul', 'col.white': 'Blanco',
           'controls.priceMax': 'Máx',
           'footer.privacy': 'Política de privacidad', 'footer.terms': 'Términos', 'footer.rights': 'Todos los derechos reservados',
+          'footer.shipping': 'Envíos y Devoluciones', 'footer.warranty': 'Garantía', 'footer.care': 'Guía de Cuidado',
           'pdp.add': 'Añadir al Carrito', 'pdp.materials': 'Materiales y Cuidado', 'pdp.shipping': 'Envíos y Devoluciones',
           'pdp.materials.text': 'Piel vegana premium. Limpiar con paño suave y seco.',
           'pdp.shipping.text': 'Envío gratuito en pedidos superiores a $100. Devoluciones en 30 días.'
@@ -73,6 +76,7 @@ const { title, description = "IR: accesorios de mujer hechos a mano para necesid
           'col.all': 'Color', 'col.gold': 'Gold', 'col.blue': 'Blue', 'col.white': 'White',
           'controls.priceMax': 'Max',
           'footer.privacy': 'Privacy Policy', 'footer.terms': 'Terms', 'footer.rights': 'All rights reserved',
+          'footer.shipping': 'Shipping & Returns', 'footer.warranty': 'Warranty', 'footer.care': 'Care Guide',
           'pdp.add': 'Add to Cart', 'pdp.materials': 'Materials & Care', 'pdp.shipping': 'Shipping & Returns',
           'pdp.materials.text': 'Premium vegan leather. Wipe clean with a soft, dry cloth.',
           'pdp.shipping.text': 'Free shipping on orders over $100. Returns accepted within 30 days.'
@@ -87,6 +91,7 @@ const { title, description = "IR: accesorios de mujer hechos a mano para necesid
           'col.all': 'Couleur', 'col.gold': 'Doré', 'col.blue': 'Bleu', 'col.white': 'Blanc',
           'controls.priceMax': 'Max',
           'footer.privacy': 'Politique de confidentialité', 'footer.terms': 'Conditions', 'footer.rights': 'Tous droits réservés',
+          'footer.shipping': 'Livraison et Retours', 'footer.warranty': 'Garantie', 'footer.care': 'Guide d\'Entretien',
           'pdp.add': 'Ajouter au panier', 'pdp.materials': 'Matériaux et Entretien', 'pdp.shipping': 'Livraison et Retours',
           'pdp.materials.text': 'Cuir végétalien de qualité supérieure. Essuyer avec un chiffon doux et sec.',
           'pdp.shipping.text': 'Livraison gratuite pour les commandes de plus de 100$.'
